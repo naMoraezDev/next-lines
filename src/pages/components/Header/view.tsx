@@ -1,5 +1,6 @@
 import { Flex, Icon, Input, Switch, Text } from "@chakra-ui/react";
 import { RiSearchLine } from "react-icons/ri";
+import { MdDarkMode } from "react-icons/md";
 
 export function HeaderView() {
   return (
@@ -66,7 +67,10 @@ export function HeaderView() {
         <Icon as={RiSearchLine} fontSize="20" color="gray.400" />
       </Flex>
 
-      <Switch size="lg" colorScheme={"green"} />
+      <Flex>
+        <Switch size="lg" colorScheme={"green"} />
+        <Icon as={MdDarkMode} fontSize="30" color="green.400" ml="3" />
+      </Flex>
     </Flex>
   );
 }
