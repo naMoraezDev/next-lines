@@ -1,5 +1,6 @@
 import { Flex, Icon, Input, Switch, Text } from "@chakra-ui/react";
 import { RiSearchLine } from "react-icons/ri";
+import { IoIosBus } from "react-icons/io";
 import { MdDarkMode } from "react-icons/md";
 
 export function HeaderView() {
@@ -14,12 +15,17 @@ export function HeaderView() {
       align="center"
       justify="space-between"
     >
-      <Text fontSize={["md", "3xl"]} fontWeight="bold" letterSpacing="tight">
-        <Text color="green.400" as="span">
-          POA{" "}
+      <Flex>
+        <Text
+          fontSize="4xl"
+          fontWeight="bold"
+          letterSpacing="tight"
+          color="green.400"
+        >
+          _lines
         </Text>
-        _ lines
-      </Text>
+        <Icon as={IoIosBus} fontSize="48" color="gray.500" />
+      </Flex>
 
       <Flex>
         <Text
