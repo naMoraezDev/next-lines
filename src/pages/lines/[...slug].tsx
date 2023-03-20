@@ -3,6 +3,8 @@ import {
   Flex,
   Icon,
   IconButton,
+  Select,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -11,6 +13,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import { ChangeEvent, useState } from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
 type Line = {
@@ -21,47 +25,73 @@ type Line = {
 
 type LinesProps = {
   lines: Line[];
+  filter: string;
 };
 
-export default function Lines({ lines }: LinesProps) {
-  console.log(lines);
+export default function Lines({ lines, filter }: LinesProps) {
+  const router = useRouter();
+
+  function handleSelectFilter(event: ChangeEvent<HTMLSelectElement>) {
+    const filter = event.target.value;
+    if (filter !== "buses" && filter !== "lotations") {
+      router.push(`/lines/all`);
+      return;
+    }
+
+    router.push(`/lines/filter?filter=${filter}`);
+  }
+
   return (
-    <Flex>
-      <Flex maxW={1480} mx="auto" mt={23}>
-        <TableContainer>
-          <Table variant="striped" colorScheme="facebook">
-            <Thead>
-              <Tr>
-                <Td>Código</Td>
-                <Td>Nome</Td>
-                <Td>Ação</Td>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {lines.map((line: any) => (
-                <Tr key={line.id}>
-                  <Td>{line.codigo}</Td>
-                  <Td>{line.nome}</Td>
-                  <Td>
-                    <IconButton
-                      borderRadius="full"
-                      colorScheme="green"
-                      size="sm"
-                      aria-label="Search database"
-                      icon={
-                        <Icon
-                          as={AiOutlineArrowRight}
-                          color="gray.100"
-                          fontSize="20"
-                        />
-                      }
-                    />
-                  </Td>
+    <Flex mt={23} mb={100}>
+      <Flex maxW={1480} mx="auto">
+        <Stack>
+          <Select
+            ringColor="green.400"
+            borderColor="green.400"
+            alignSelf="flex-end"
+            w={200}
+            onChange={(e) => handleSelectFilter(e)}
+            value={filter}
+          >
+            <option value="all">Todos</option>
+            <option value="buses">Ônibus</option>
+            <option value="lotations">Lotação</option>
+          </Select>
+          <TableContainer>
+            <Table variant="striped" colorScheme="facebook">
+              <Thead>
+                <Tr>
+                  <Td>Código</Td>
+                  <Td>Nome</Td>
+                  <Td>Ação</Td>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
+              </Thead>
+              <Tbody>
+                {lines.map((line: any) => (
+                  <Tr key={line.id}>
+                    <Td>{line.codigo}</Td>
+                    <Td>{line.nome}</Td>
+                    <Td>
+                      <IconButton
+                        borderRadius="full"
+                        colorScheme="green"
+                        size="sm"
+                        aria-label="Search database"
+                        icon={
+                          <Icon
+                            as={AiOutlineArrowRight}
+                            color="gray.100"
+                            fontSize="20"
+                          />
+                        }
+                      />
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </Stack>
       </Flex>
     </Flex>
   );
@@ -76,6 +106,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     return {
       props: {
         lines,
+        filter: query.slug,
       },
     };
   }
@@ -88,6 +119,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     return {
       props: {
         lines,
+        filter: query.filter,
       },
     };
   }
