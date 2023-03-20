@@ -6,7 +6,11 @@ export default function Home() {
     <Flex align="center" w="100vw" justify="center" h="80vh" gap="10">
       <Stack gap={5}>
         <Text fontWeight="bold" fontSize="50">
-          Consulte itinerários <br /> completos de todas as <br />
+          Consulte{" "}
+          <Text as="span" color="green.400">
+            itinerários
+          </Text>{" "}
+          <br /> completos de todas as <br />
           <Text as="span" color="green.400">
             linhas{" "}
           </Text>
