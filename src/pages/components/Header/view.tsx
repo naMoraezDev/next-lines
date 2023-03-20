@@ -60,7 +60,7 @@ export function HeaderView() {
         <Input
           color="gray.500"
           variant="unstyled"
-          placeholder="Buscar na plataforma"
+          placeholder="Buscar uma linha"
           _placeholder={{ color: "gray.400" }}
         />
 
