@@ -18,7 +18,7 @@ export default function Search({ lines, filter }: SearchProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const term = query.term ?? "";
+  const term = query.term?.toString().toLowerCase() ?? "";
   if (query.slug == "all" && term.length) {
     const buses = await api.get("/process.php?a=nc&p=%&t=o");
     const lotations = await api.get("/process.php?a=nc&p=%&t=l");
@@ -27,8 +27,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
     const filterdlines: Line[] = lines.filter(
       (line: Line) =>
-        line.codigo.toLowerCase().includes(term[0].toLowerCase()) ||
-        line.nome.toLowerCase().includes(term[0].toLowerCase())
+        line.codigo.toLowerCase().includes(term) ||
+        line.nome.toLowerCase().includes(term)
     );
 
     return {
@@ -45,8 +45,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
     const lines: Line[] = data.filter(
       (line: Line) =>
-        line.codigo.toLowerCase().includes(term[0].toLowerCase()) ||
-        line.nome.toLowerCase().includes(term[0].toLowerCase())
+        line.codigo.toLowerCase().includes(term) ||
+        line.nome.toLowerCase().includes(term)
     );
 
     return {
