@@ -18,6 +18,7 @@ import { IoIosBus } from "react-icons/io";
 import { MdDarkMode } from "react-icons/md";
 import { ChangeEvent, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export function HeaderView() {
   const router = useRouter();
@@ -71,7 +72,7 @@ export function HeaderView() {
       router.push(`/search/${filter}?term=${searchTerm}`);
     }
   }
-
+  console.log(router.asPath);
   return (
     <Flex
       as="header"
@@ -96,27 +97,35 @@ export function HeaderView() {
       </Flex>
 
       <Flex>
-        <Text
-          borderBottom="50"
-          borderBottomColor="green.400"
-          borderBottomWidth={3}
-          paddingBottom={2}
-          borderRadius={3}
-          marginRight={10}
-        >
-          Home
-        </Text>
+        <Link href="/">
+          <Text
+            borderBottomColor="green.400"
+            borderBottomWidth={router.asPath === "/" ? 3 : 0}
+            paddingBottom={2}
+            borderRadius={3}
+            marginRight={10}
+          >
+            Home
+          </Text>
+        </Link>
 
-        <Text
-          borderBottom="50"
-          borderBottomColor="green.400"
-          borderBottomWidth={3}
-          paddingBottom={2}
-          borderRadius={3}
-          marginRight={10}
-        >
-          Linhas
-        </Text>
+        <Link href="/lines/all">
+          <Text
+            borderBottom="50"
+            borderBottomColor="green.400"
+            borderBottomWidth={
+              router.asPath.includes("/lines") ||
+              router.asPath.includes("/search")
+                ? 3
+                : 0
+            }
+            paddingBottom={2}
+            borderRadius={3}
+            marginRight={10}
+          >
+            Linhas
+          </Text>
+        </Link>
       </Flex>
 
       <Flex
