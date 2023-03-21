@@ -1,9 +1,52 @@
-import { Flex, Icon, Input, Switch, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  CheckboxIcon,
+  Flex,
+  Icon,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  InputLeftElement,
+  InputRightElement,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+  Stack,
+  Switch,
+  Text,
+} from "@chakra-ui/react";
 import { RiSearchLine } from "react-icons/ri";
+import { AiOutlineClose } from "react-icons/ai";
 import { IoIosBus } from "react-icons/io";
 import { MdDarkMode } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
 
 export function HeaderView() {
+  const initialFocusRef = useRef(null);
+  const [inputFilters, setInputFilters] = useState<string[]>([]);
+  const [popFilters, setPopFilters] = useState<string[]>([
+    "ônibus",
+    "lotações",
+  ]);
+
+  function handleSelectFilter(filter: string) {
+    if (!inputFilters.includes(filter)) {
+      setInputFilters((filters) => [...filters, filter]);
+      setPopFilters((filters) => filters.splice(filters.indexOf(filter), 1));
+    }
+
+    return;
+  }
+
+  function handleDeSelectFilter(filter: string) {
+    if (!popFilters.includes(filter)) {
+      setPopFilters((filters) => [...filters, filter]);
+      setInputFilters((filters) => filters.splice(filters.indexOf(filter), 1));
+    }
+  }
+
   return (
     <Flex
       as="header"
@@ -63,12 +106,68 @@ export function HeaderView() {
         bg="gray.200"
         borderRadius="full"
       >
-        <Input
-          color="gray.500"
-          variant="unstyled"
-          placeholder="Buscar uma linha"
-          _placeholder={{ color: "gray.400" }}
-        />
+        {inputFilters.map((filter, index) => (
+          <Badge
+            key={index}
+            lineHeight={2}
+            size="small"
+            variant="solid"
+            colorScheme="green"
+            borderRadius="full"
+            mr="3"
+          >
+            <Flex align="center" gap="1">
+              {filter}
+              <AiOutlineClose
+                onClick={() => handleDeSelectFilter(filter)}
+                cursor="pointer"
+              />
+            </Flex>
+          </Badge>
+        ))}
+
+        <Popover
+          initialFocusRef={initialFocusRef}
+          placement="bottom"
+          closeOnBlur={false}
+        >
+          <PopoverTrigger>
+            <Input
+              color="gray.500"
+              variant="unstyled"
+              placeholder="Buscar uma linha"
+              _placeholder={{ color: "gray.400" }}
+              ref={initialFocusRef}
+            />
+          </PopoverTrigger>
+
+          {popFilters.length && (
+            <PopoverContent color="gray.500" bg="gray.200" mt={2}>
+              <PopoverArrow bg="gray.200" />
+              <Flex m="3">
+                <Stack>
+                  <Text>Filtrar por:</Text>
+                  <Flex gap="3">
+                    {popFilters.map((filter, index) => (
+                      <Badge
+                        key={index}
+                        lineHeight={2}
+                        size="small"
+                        variant="solid"
+                        colorScheme="green"
+                        borderRadius="full"
+                        onClick={() => handleSelectFilter(filter)}
+                        cursor="pointer"
+                      >
+                        {filter}
+                      </Badge>
+                    ))}
+                  </Flex>
+                </Stack>
+              </Flex>
+            </PopoverContent>
+          )}
+        </Popover>
 
         <Icon as={RiSearchLine} fontSize="20" color="gray.400" />
       </Flex>
