@@ -85,14 +85,16 @@ export function HeaderView() {
       justify="space-between"
     >
       <Flex>
-        <Text
-          fontSize="4xl"
-          fontWeight="bold"
-          letterSpacing="tight"
-          color="green.400"
-        >
-          _lines
-        </Text>
+        <Link href="/">
+          <Text
+            fontSize="4xl"
+            fontWeight="bold"
+            letterSpacing="tight"
+            color="green.400"
+          >
+            _lines
+          </Text>
+        </Link>
         <Icon as={IoIosBus} fontSize="48" color="gray.500" />
       </Flex>
 

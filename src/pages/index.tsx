@@ -1,5 +1,6 @@
 import { Button, Flex, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -16,14 +17,16 @@ export default function Home() {
           </Text>
           de ônibus de <br /> Porto Alegre.
         </Text>
-        <Button
-          borderRadius="full"
-          colorScheme="green"
-          width={400}
-          alignSelf="center"
-        >
-          Navegar
-        </Button>
+        <Link href="/lines/all">
+          <Button
+            borderRadius="full"
+            colorScheme="green"
+            width={400}
+            alignSelf="center"
+          >
+            Navegar
+          </Button>
+        </Link>
       </Stack>
 
       <Image
