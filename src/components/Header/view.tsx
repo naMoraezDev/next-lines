@@ -51,17 +51,25 @@ export function HeaderView() {
 
   function handleSearch(event: any) {
     event.preventDefault();
-    const filter = inputFilters[0] == "ônibus" ? "buses" : "lotations";
+    const filter = inputFilters.toString() === "ônibus" ? "buses" : "lotations";
 
     if (searchTerm.length === 0) {
       return;
     }
 
-    if (inputFilters.length > 1 || inputFilters.length === 0) {
+    if (inputFilters.length > 1) {
       router.push(`/search/all?term=${searchTerm}`);
     }
 
-    router.push(`/search/${filter}?term=${searchTerm}`);
+    if (inputFilters.length === 0) {
+      router.push(`/search/all?term=${searchTerm}`);
+    }
+
+    if (inputFilters.length < 1) {
+      router.push(`/search/all?term=${searchTerm}`);
+    } else {
+      router.push(`/search/${filter}?term=${searchTerm}`);
+    }
   }
 
   return (
