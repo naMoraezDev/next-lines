@@ -15,15 +15,18 @@ import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoIosBus } from "react-icons/io";
 import { MdDarkMode } from "react-icons/md";
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
 export function HeaderView() {
+  const router = useRouter();
   const initialFocusRef = useRef(null);
   const [inputFilters, setInputFilters] = useState<string[]>([]);
   const [popFilters, setPopFilters] = useState<string[]>([
     "ônibus",
     "lotações",
   ]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   function handleSelectFilter(filter: string) {
     if (!inputFilters.includes(filter)) {
@@ -39,6 +42,24 @@ export function HeaderView() {
       setPopFilters((filters) => [...filters, filter]);
       setInputFilters((filters) => filters.splice(filters.indexOf(filter), 1));
     }
+  }
+
+  function handleOnChangeSearchTerm(event: ChangeEvent<HTMLInputElement>) {
+    setSearchTerm(event.target.value);
+  }
+
+  function handleSearch() {
+    const filter = inputFilters[0] == "ônibus" ? "buses" : "lotations";
+
+    if (searchTerm.length === 0) {
+      return;
+    }
+
+    if (inputFilters.length > 1 || inputFilters.length === 0) {
+      router.push(`/search/all?term=${searchTerm}`);
+    }
+
+    router.push(`/search/${filter}?term=${searchTerm}`);
   }
 
   return (
@@ -132,6 +153,7 @@ export function HeaderView() {
               placeholder="Buscar uma linha"
               _placeholder={{ color: "gray.400" }}
               ref={initialFocusRef}
+              onChange={(e) => handleOnChangeSearchTerm(e)}
             />
           </PopoverTrigger>
 
@@ -163,7 +185,13 @@ export function HeaderView() {
           )}
         </Popover>
 
-        <Icon as={RiSearchLine} fontSize="20" color="gray.400" />
+        <Icon
+          as={RiSearchLine}
+          fontSize="20"
+          color="gray.400"
+          cursor="pointer"
+          onClick={() => handleSearch()}
+        />
       </Flex>
 
       <Flex>

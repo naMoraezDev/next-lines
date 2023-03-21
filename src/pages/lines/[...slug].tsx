@@ -31,8 +31,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     };
   }
 
-  if (query.filter === "buses" || query.filter === "lotations") {
-    const filter = query.filter === "buses" ? "o" : "l";
+  if (query.filter == "buses" || query.filter == "lotations") {
+    const filter = query.filter == "buses" ? "o" : "l";
     const { data } = await api.get(`/process.php?a=nc&p=%&t=${filter}`);
 
     const lines: Line[] = data;
