@@ -26,7 +26,13 @@ export default function Home() {
         </Button>
       </Stack>
 
-      <Image src="/bus-stop.svg" alt="" width={450} height={600} priority />
+      <Image
+        src="/images/bus-stop.svg"
+        alt=""
+        width={450}
+        height={600}
+        priority
+      />
     </Flex>
   );
 }
