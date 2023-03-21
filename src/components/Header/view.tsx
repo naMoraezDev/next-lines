@@ -47,7 +47,7 @@ export function HeaderView() {
           borderRadius={3}
           marginRight={10}
         >
-          Itinerário
+          Linhas
         </Text>
       </Flex>
 

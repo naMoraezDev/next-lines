@@ -45,18 +45,20 @@ export default function Lines({ lines, filter }: LinesProps) {
     <Flex mt={23} mb={100}>
       <Flex maxW={1480} mx="auto">
         <Stack>
-          <Select
-            ringColor="green.400"
-            borderColor="green.400"
-            alignSelf="flex-end"
-            w={200}
-            onChange={(e) => handleSelectFilter(e)}
-            value={filter}
-          >
-            <option value="all">Todos</option>
-            <option value="buses">Ônibus</option>
-            <option value="lotations">Lotação</option>
-          </Select>
+          <Flex alignSelf="flex-end" align="center" gap="15">
+            Filtrar por: 
+            <Select
+              ringColor="green.400"
+              borderColor="green.400"
+              w={200}
+              onChange={(e) => handleSelectFilter(e)}
+              value={filter}
+            >
+              <option value="all">Todos</option>
+              <option value="buses">Ônibus</option>
+              <option value="lotations">Lotação</option>
+            </Select>
+          </Flex>
           <TableContainer>
             <Table variant="striped" colorScheme="facebook">
               <Thead>
