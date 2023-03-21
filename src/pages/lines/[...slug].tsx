@@ -46,7 +46,7 @@ export default function Lines({ lines, filter }: LinesProps) {
       <Flex maxW={1480} mx="auto">
         <Stack>
           <Flex alignSelf="flex-end" align="center" gap="15">
-            Filtrar por: 
+            Filtrar por:
             <Select
               ringColor="green.400"
               borderColor="green.400"
@@ -59,7 +59,7 @@ export default function Lines({ lines, filter }: LinesProps) {
               <option value="lotations">Lotação</option>
             </Select>
           </Flex>
-          <TableContainer>
+          <TableContainer width={1080}>
             <Table variant="striped" colorScheme="facebook">
               <Thead>
                 <Tr>
