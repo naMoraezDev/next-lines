@@ -10,7 +10,9 @@ import {
   Tbody,
   IconButton,
   Icon,
+  Text,
 } from "@chakra-ui/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent } from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
@@ -61,40 +63,55 @@ export function LinesResults({ lines, filter, showFilterSelect }: LinesProps) {
             </Flex>
           )}
 
-          <TableContainer width={1080}>
-            <Table variant="striped" colorScheme="facebook">
-              <Thead>
-                <Tr>
-                  <Td>Código</Td>
-                  <Td>Nome</Td>
-                  <Td>Ação</Td>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {lines.map((line: any) => (
-                  <Tr key={line.id}>
-                    <Td>{line.codigo}</Td>
-                    <Td>{line.nome}</Td>
-                    <Td>
-                      <IconButton
-                        borderRadius="full"
-                        colorScheme="green"
-                        size="sm"
-                        aria-label="Search database"
-                        icon={
-                          <Icon
-                            as={AiOutlineArrowRight}
-                            color="gray.100"
-                            fontSize="20"
-                          />
-                        }
-                      />
-                    </Td>
+          {lines.length ? (
+            <TableContainer width={1080}>
+              <Table variant="striped" colorScheme="facebook">
+                <Thead>
+                  <Tr>
+                    <Td>Código</Td>
+                    <Td>Nome</Td>
+                    <Td>Ação</Td>
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
+                </Thead>
+                <Tbody>
+                  {lines.map((line: any) => (
+                    <Tr key={line.id}>
+                      <Td>{line.codigo}</Td>
+                      <Td>{line.nome}</Td>
+                      <Td>
+                        <IconButton
+                          borderRadius="full"
+                          colorScheme="green"
+                          size="sm"
+                          aria-label="Search database"
+                          icon={
+                            <Icon
+                              as={AiOutlineArrowRight}
+                              color="gray.100"
+                              fontSize="20"
+                            />
+                          }
+                        />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <Stack mt={20}>
+              <Image
+                src="/images/no-data.svg"
+                alt=""
+                width={350}
+                height={350}
+                priority
+              />
+              <Text fontWeight="bold" alignSelf="center">
+                Não encontramos nada referente a esta busca :((
+              </Text>
+            </Stack>
+          )}
         </Stack>
       </Flex>
     </Flex>
