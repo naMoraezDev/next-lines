@@ -1,4 +1,4 @@
-import { LinesContainer } from "@/features/Lines";
+import { LinesResults } from "@/features/LinesResults";
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
 
@@ -14,7 +14,7 @@ type LinesProps = {
 };
 
 export default function Lines({ lines, filter }: LinesProps) {
-  return <LinesContainer lines={lines} filter={filter} />;
+  return <LinesResults showFilterSelect lines={lines} filter={filter} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {

@@ -1,14 +1,8 @@
 import {
   Badge,
-  CheckboxIcon,
   Flex,
   Icon,
-  IconButton,
   Input,
-  InputGroup,
-  InputLeftAddon,
-  InputLeftElement,
-  InputRightElement,
   Popover,
   PopoverArrow,
   PopoverContent,
@@ -21,7 +15,7 @@ import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoIosBus } from "react-icons/io";
 import { MdDarkMode } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 export function HeaderView() {
   const initialFocusRef = useRef(null);

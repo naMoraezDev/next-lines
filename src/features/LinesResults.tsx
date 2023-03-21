@@ -24,9 +24,10 @@ type Line = {
 type LinesProps = {
   lines: Line[];
   filter: string;
+  showFilterSelect?: boolean;
 };
 
-export function LinesContainer({ lines, filter }: LinesProps) {
+export function LinesResults({ lines, filter, showFilterSelect }: LinesProps) {
   const router = useRouter();
 
   function handleSelectFilter(event: ChangeEvent<HTMLSelectElement>) {
@@ -43,20 +44,23 @@ export function LinesContainer({ lines, filter }: LinesProps) {
     <Flex mt={23} mb={100}>
       <Flex maxW={1480} mx="auto">
         <Stack>
-          <Flex alignSelf="flex-end" align="center" gap="15">
-            Filtrar por:
-            <Select
-              ringColor="green.400"
-              borderColor="green.400"
-              w={200}
-              onChange={(e) => handleSelectFilter(e)}
-              value={filter}
-            >
-              <option value="all">Todos</option>
-              <option value="buses">Ônibus</option>
-              <option value="lotations">Lotação</option>
-            </Select>
-          </Flex>
+          {showFilterSelect && (
+            <Flex alignSelf="flex-end" align="center" gap="15">
+              Filtrar por:
+              <Select
+                ringColor="green.400"
+                borderColor="green.400"
+                w={200}
+                onChange={(e) => handleSelectFilter(e)}
+                value={filter}
+              >
+                <option value="all">Todos</option>
+                <option value="buses">Ônibus</option>
+                <option value="lotations">Lotação</option>
+              </Select>
+            </Flex>
+          )}
+
           <TableContainer width={1080}>
             <Table variant="striped" colorScheme="facebook">
               <Thead>
