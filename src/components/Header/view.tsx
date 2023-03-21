@@ -5,6 +5,7 @@ import {
   Input,
   Popover,
   PopoverArrow,
+  PopoverBody,
   PopoverContent,
   PopoverTrigger,
   Stack,
@@ -48,7 +49,8 @@ export function HeaderView() {
     setSearchTerm(event.target.value);
   }
 
-  function handleSearch() {
+  function handleSearch(event: any) {
+    event.preventDefault();
     const filter = inputFilters[0] == "ônibus" ? "buses" : "lotations";
 
     if (searchTerm.length === 0) {
@@ -159,28 +161,30 @@ export function HeaderView() {
 
           {popFilters.length && (
             <PopoverContent color="gray.500" bg="gray.200" mt={2}>
-              <PopoverArrow bg="gray.200" />
-              <Flex m="3">
-                <Stack>
-                  <Text>Filtrar por:</Text>
-                  <Flex gap="3">
-                    {popFilters.map((filter, index) => (
-                      <Badge
-                        key={index}
-                        lineHeight={2}
-                        size="small"
-                        variant="solid"
-                        colorScheme="green"
-                        borderRadius="full"
-                        onClick={() => handleSelectFilter(filter)}
-                        cursor="pointer"
-                      >
-                        {filter}
-                      </Badge>
-                    ))}
-                  </Flex>
-                </Stack>
-              </Flex>
+              <PopoverBody>
+                <PopoverArrow bg="gray.200" />
+                <Flex m="3">
+                  <Stack>
+                    <Text>Filtrar por:</Text>
+                    <Flex gap="3">
+                      {popFilters.map((filter, index) => (
+                        <Badge
+                          key={index}
+                          lineHeight={2}
+                          size="small"
+                          variant="solid"
+                          colorScheme="green"
+                          borderRadius="full"
+                          onClick={() => handleSelectFilter(filter)}
+                          cursor="pointer"
+                        >
+                          {filter}
+                        </Badge>
+                      ))}
+                    </Flex>
+                  </Stack>
+                </Flex>
+              </PopoverBody>
             </PopoverContent>
           )}
         </Popover>
@@ -190,7 +194,7 @@ export function HeaderView() {
           fontSize="20"
           color="gray.400"
           cursor="pointer"
-          onClick={() => handleSearch()}
+          onClick={(e) => handleSearch(e)}
         />
       </Flex>
 
