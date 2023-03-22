@@ -1,3 +1,4 @@
+import { useTheme } from "@/shared/hooks/useTheme";
 import {
   TableContainer,
   Table,
@@ -21,42 +22,42 @@ type ItineraryTableProps = {
 };
 
 export function ItineraryTable({ itinerary }: ItineraryTableProps) {
+  const { isDark } = useTheme();
+
   return (
     <TableContainer width={1080}>
-      <Box overflowX="hidden" overflowY="scroll" h="70vh">
-        <Table variant="striped" colorScheme="facebook">
-          <Thead>
-            <Tr>
-              <Td>Localidade</Td>
-              <Td>Mapa</Td>
+      <Table variant="striped" colorScheme={isDark ? "blackAlpha" : "facebook"}>
+        <Thead>
+          <Tr>
+            <Td>Localidade</Td>
+            <Td>Mapa</Td>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {itinerary.map((line: any, index) => (
+            <Tr key={line.id}>
+              <Td>{`Rua ${index + 1}`}</Td>
+              <Td>
+                <IconButton
+                  borderRadius="full"
+                  colorScheme="green"
+                  size="sm"
+                  aria-label="Search database"
+                  onClick={() =>
+                    window.open(
+                      `https://www.google.com/maps/?q=${line.lat},${line.lng}`,
+                      "_blank"
+                    )
+                  }
+                  icon={
+                    <Icon as={MdLocationOn} color="gray.100" fontSize="20" />
+                  }
+                />
+              </Td>
             </Tr>
-          </Thead>
-          <Tbody>
-            {itinerary.map((line: any, index) => (
-              <Tr key={line.id}>
-                <Td>{`Rua ${index + 1}`}</Td>
-                <Td>
-                  <IconButton
-                    borderRadius="full"
-                    colorScheme="green"
-                    size="sm"
-                    aria-label="Search database"
-                    onClick={() =>
-                      window.open(
-                        `https://www.google.com/maps/?q=${line.lat},${line.lng}`,
-                        "_blank"
-                      )
-                    }
-                    icon={
-                      <Icon as={MdLocationOn} color="gray.100" fontSize="20" />
-                    }
-                  />
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Box>
+          ))}
+        </Tbody>
+      </Table>
     </TableContainer>
   );
 }
