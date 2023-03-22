@@ -1,0 +1,38 @@
+import { Flex, Select } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { ChangeEvent } from "react";
+
+type FilterSelectProps = {
+  filter: string;
+};
+
+export function FilterSelect({ filter }: FilterSelectProps) {
+  const router = useRouter();
+
+  function handleSelectFilter(event: ChangeEvent<HTMLSelectElement>) {
+    const filter = event.target.value;
+    if (filter !== "buses" && filter !== "lotations") {
+      router.push(`/lines/all`);
+      return;
+    }
+
+    router.push(`/lines/filter?filter=${filter}`);
+  }
+
+  return (
+    <Flex alignSelf="flex-end" align="center" gap="15">
+      Filtrar por:
+      <Select
+        ringColor="green.400"
+        borderColor="green.400"
+        w={200}
+        onChange={(e) => handleSelectFilter(e)}
+        value={filter}
+      >
+        <option value="all">Todos</option>
+        <option value="buses">Ônibus</option>
+        <option value="lotations">Lotação</option>
+      </Select>
+    </Flex>
+  );
+}

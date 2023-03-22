@@ -1,4 +1,4 @@
-import { LinesResults } from "@/features/LinesResults";
+import { LinesResults } from "@/features/LinesResults/LinesResults";
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
 
