@@ -12,7 +12,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { ChangeEvent, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { RiSearchLine } from "react-icons/ri";
 
@@ -46,8 +52,7 @@ export function SearchBox() {
     setSearchTerm(event.target.value);
   }
 
-  function handleSearch(event: any) {
-    event.preventDefault();
+  function handleSearch() {
     const filter = inputFilters.toString() === "ônibus" ? "buses" : "lotations";
 
     if (searchTerm.length === 0) {
@@ -68,6 +73,14 @@ export function SearchBox() {
       router.push(`/search/${filter}?term=${searchTerm}`);
     }
   }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    console.log(event.key);
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  }
+
   return (
     <Flex
       as="label"
@@ -114,6 +127,7 @@ export function SearchBox() {
             _placeholder={{ color: "gray.400" }}
             ref={initialFocusRef}
             onChange={(e) => handleOnChangeSearchTerm(e)}
+            onKeyDown={(e) => handleKeyDown(e)}
           />
         </PopoverTrigger>
 
@@ -152,7 +166,7 @@ export function SearchBox() {
         fontSize="20"
         color="gray.400"
         cursor="pointer"
-        onClick={(e) => handleSearch(e)}
+        onClick={() => handleSearch()}
       />
     </Flex>
   );
