@@ -1,8 +1,15 @@
-import React, { useState, createContext, useCallback, ReactNode } from "react";
+import React, {
+  useState,
+  createContext,
+  useCallback,
+  ReactNode,
+  useEffect,
+} from "react";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { darkTheme } from "@/styles/dark-theme";
 import { lightTheme } from "@/styles/light-theme";
+import { setCookie, parseCookies } from "nookies";
 
 type ThemeContextData = {
   toggleTheme(): void;
@@ -19,6 +26,9 @@ type ThemesProviderProps = {
 };
 
 export function ThemeProvider({ children }: ThemesProviderProps) {
+  const { "app.theme": themeCookie } = parseCookies();
+  const themeC = themeCookie === "dark" ? darkTheme : lightTheme;
+
   const handleToggleTheme = useCallback(() => {
     setThemeData((oldState) => ({
       ...oldState,
@@ -29,9 +39,17 @@ export function ThemeProvider({ children }: ThemesProviderProps) {
 
   const [themeData, setThemeData] = useState<ThemeContextData>({
     toggleTheme: handleToggleTheme,
-    theme: lightTheme,
-    isDark: false,
+    theme: themeC,
+    isDark: themeCookie === "dark",
   });
+
+  useEffect(() => {
+    const themeCookie = themeData.isDark ? "dark" : "light";
+    console.log(themeCookie);
+    setCookie(undefined, "app.theme", themeCookie, {
+      maxAge: 60 * 60 * 24 * 30,
+    });
+  }, [themeData]);
 
   return (
     <ThemeContext.Provider value={themeData}>

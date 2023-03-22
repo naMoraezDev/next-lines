@@ -26,7 +26,12 @@ export function HeaderView() {
       <SearchBox />
 
       <Flex>
-        <Switch size="lg" colorScheme={"green"} onChange={toggleTheme} />
+        <Switch
+          size="lg"
+          colorScheme={"green"}
+          onChange={toggleTheme}
+          isChecked={isDark}
+        />
         <Icon
           as={MdDarkMode}
           fontSize="30"
