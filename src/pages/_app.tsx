@@ -6,7 +6,7 @@ import { Header } from "../components/Header";
 import { motion } from "framer-motion";
 import "./nprogress.css";
 import { SplashScreen } from "@/features/SplashScreen";
-import { ThemeProvider } from "@/shared/context/Theme";
+import { ThemeProvider } from "@/context/Theme";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 

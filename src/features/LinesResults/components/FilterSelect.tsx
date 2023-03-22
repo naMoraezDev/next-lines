@@ -1,4 +1,4 @@
-import { useTheme } from "@/shared/hooks/useTheme";
+import { useTheme } from "@/hooks/useTheme";
 import { Flex, Select, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ChangeEvent } from "react";

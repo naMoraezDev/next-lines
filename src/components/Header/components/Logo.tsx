@@ -1,4 +1,4 @@
-import { useTheme } from "@/shared/hooks/useTheme";
+import { useTheme } from "@/hooks/useTheme";
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { IoIosBus } from "react-icons/io";

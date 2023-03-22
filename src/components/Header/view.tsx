@@ -1,4 +1,4 @@
-import { useTheme } from "@/shared/hooks/useTheme";
+import { useTheme } from "@/hooks/useTheme";
 import { Flex, Icon, Switch } from "@chakra-ui/react";
 import { MdDarkMode } from "react-icons/md";
 import { Logo } from "./components/Logo";
