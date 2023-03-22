@@ -55,7 +55,7 @@ export default function Itinerary({ itinerary, line }: DetailsProps) {
                 <Thead>
                   <Tr>
                     <Td>Localidade</Td>
-                    <Td>Ação</Td>
+                    <Td>Mapa</Td>
                   </Tr>
                 </Thead>
                 <Tbody>

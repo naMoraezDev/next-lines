@@ -1,4 +1,3 @@
-import { api } from "@/services/api";
 import {
   Flex,
   Stack,
@@ -13,12 +12,13 @@ import {
   Icon,
   Text,
   Box,
+  Tooltip,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ChangeEvent } from "react";
-import { AiOutlineArrowRight } from "react-icons/ai";
+import { IoIosEye } from "react-icons/io";
 
 type Line = {
   id: string;
@@ -74,7 +74,7 @@ export function LinesResults({ lines, filter, showFilterSelect }: LinesProps) {
                     <Tr>
                       <Td>Código</Td>
                       <Td>Nome</Td>
-                      <Td>Ação</Td>
+                      <Td>Detalhes</Td>
                     </Tr>
                   </Thead>
                   <Tbody>
@@ -91,7 +91,7 @@ export function LinesResults({ lines, filter, showFilterSelect }: LinesProps) {
                               aria-label="Search database"
                               icon={
                                 <Icon
-                                  as={AiOutlineArrowRight}
+                                  as={IoIosEye}
                                   color="gray.100"
                                   fontSize="20"
                                 />
