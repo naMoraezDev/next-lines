@@ -1,3 +1,4 @@
+import { useTheme } from "@/shared/hooks/useTheme";
 import {
   TableContainer,
   Table,
@@ -23,10 +24,15 @@ type LinesTableProps = {
 };
 
 export function LinesTable({ lines }: LinesTableProps) {
+  const { isDark } = useTheme();
+
   return (
     <TableContainer width={1080}>
       <Box overflowX="hidden" overflowY="scroll" h="70vh">
-        <Table variant="striped" colorScheme="facebook">
+        <Table
+          variant="striped"
+          colorScheme={isDark ? "blackAlpha" : "facebook"}
+        >
           <Thead>
             <Tr>
               <Td>Código</Td>
