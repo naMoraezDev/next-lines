@@ -1,3 +1,4 @@
+import { api } from "@/services/api";
 import {
   Flex,
   Stack,
@@ -11,6 +12,7 @@ import {
   IconButton,
   Icon,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -42,6 +44,25 @@ export function LinesResults({ lines, filter, showFilterSelect }: LinesProps) {
     router.push(`/lines/filter?filter=${filter}`);
   }
 
+  async function getLineDetails(id: string) {
+    const { data } = await api.get(`process.php?a=il&`, {
+      params: {
+        p: id,
+      },
+    });
+    const arr: any = Object.values(data);
+    const query: any = arr.map((item: any) => {
+      return `${item.lat}, ${item.lng}/`;
+    });
+
+    window.open(
+      `https://www.google.com/maps/dir/${query.toString()}`,
+      "_blank"
+    );
+
+    console.log(query.toString());
+  }
+
   return (
     <Flex mt={23} mb={100}>
       <Flex maxW={1480} mx="auto">
@@ -65,38 +86,41 @@ export function LinesResults({ lines, filter, showFilterSelect }: LinesProps) {
 
           {lines.length ? (
             <TableContainer width={1080}>
-              <Table variant="striped" colorScheme="facebook">
-                <Thead>
-                  <Tr>
-                    <Td>Código</Td>
-                    <Td>Nome</Td>
-                    <Td>Ação</Td>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {lines.map((line: any) => (
-                    <Tr key={line.id}>
-                      <Td>{line.codigo}</Td>
-                      <Td>{line.nome}</Td>
-                      <Td>
-                        <IconButton
-                          borderRadius="full"
-                          colorScheme="green"
-                          size="sm"
-                          aria-label="Search database"
-                          icon={
-                            <Icon
-                              as={AiOutlineArrowRight}
-                              color="gray.100"
-                              fontSize="20"
-                            />
-                          }
-                        />
-                      </Td>
+              <Box overflowX="hidden" overflowY="scroll" h="70vh">
+                <Table variant="striped" colorScheme="facebook">
+                  <Thead>
+                    <Tr>
+                      <Td>Código</Td>
+                      <Td>Nome</Td>
+                      <Td>Ação</Td>
                     </Tr>
-                  ))}
-                </Tbody>
-              </Table>
+                  </Thead>
+                  <Tbody>
+                    {lines.map((line: any) => (
+                      <Tr key={line.id}>
+                        <Td>{line.codigo}</Td>
+                        <Td>{line.nome}</Td>
+                        <Td>
+                          <IconButton
+                            borderRadius="full"
+                            colorScheme="green"
+                            size="sm"
+                            aria-label="Search database"
+                            onClick={() => getLineDetails(line.id)}
+                            icon={
+                              <Icon
+                                as={AiOutlineArrowRight}
+                                color="gray.100"
+                                fontSize="20"
+                              />
+                            }
+                          />
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
             </TableContainer>
           ) : (
             <Stack mt={20}>
