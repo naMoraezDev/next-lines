@@ -126,7 +126,7 @@ export function SearchBox() {
           />
         </PopoverTrigger>
 
-        {popFilters.length && (
+        {Boolean(popFilters.length) && (
           <PopoverContent
             color={isDark ? "gray.300" : "gray.500"}
             bg={isDark ? "gray.700" : "gray.200"}
