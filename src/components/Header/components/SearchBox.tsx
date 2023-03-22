@@ -75,7 +75,6 @@ export function SearchBox() {
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    console.log(event.key);
     if (event.key === "Enter") {
       handleSearch();
     }
