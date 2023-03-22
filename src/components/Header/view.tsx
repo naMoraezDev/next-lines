@@ -6,7 +6,7 @@ import { Navigation } from "./components/Navigation";
 import { SearchBox } from "./components/SearchBox";
 
 export function HeaderView() {
-  const { toggleTheme } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
 
   return (
     <Flex
@@ -27,7 +27,12 @@ export function HeaderView() {
 
       <Flex>
         <Switch size="lg" colorScheme={"green"} onChange={toggleTheme} />
-        <Icon as={MdDarkMode} fontSize="30" color="green.400" ml="3" />
+        <Icon
+          as={MdDarkMode}
+          fontSize="30"
+          color={isDark ? "green.400" : "gray.300"}
+          ml="3"
+        />
       </Flex>
     </Flex>
   );

@@ -1,8 +1,11 @@
+import { useTheme } from "@/shared/hooks/useTheme";
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { IoIosBus } from "react-icons/io";
 
 export function Logo() {
+  const { isDark } = useTheme();
+
   return (
     <Flex>
       <Link href="/">
@@ -15,7 +18,11 @@ export function Logo() {
           _lines
         </Text>
       </Link>
-      <Icon as={IoIosBus} fontSize="48" color="gray.500" />
+      <Icon
+        as={IoIosBus}
+        fontSize="48"
+        color={isDark ? "gray.100" : "gray.500"}
+      />
     </Flex>
   );
 }

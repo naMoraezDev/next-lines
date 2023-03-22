@@ -1,3 +1,4 @@
+import { useTheme } from "@/shared/hooks/useTheme";
 import {
   Flex,
   Badge,
@@ -12,17 +13,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  MouseEvent,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { RiSearchLine } from "react-icons/ri";
 
 export function SearchBox() {
+  const { isDark } = useTheme();
   const router = useRouter();
   const initialFocusRef = useRef(null);
   const [inputFilters, setInputFilters] = useState<string[]>([]);
@@ -90,7 +86,7 @@ export function SearchBox() {
       alignSelf="center"
       color="gray.200"
       position="relative"
-      bg="gray.200"
+      bg={isDark ? "gray.700" : "gray.200"}
       borderRadius="full"
     >
       {inputFilters.map((filter, index) => (
@@ -131,9 +127,17 @@ export function SearchBox() {
         </PopoverTrigger>
 
         {popFilters.length && (
-          <PopoverContent color="gray.500" bg="gray.200" mt={2}>
+          <PopoverContent
+            color={isDark ? "gray.300" : "gray.500"}
+            bg={isDark ? "gray.700" : "gray.200"}
+            mt={2}
+            border="none"
+          >
             <PopoverBody>
-              <PopoverArrow bg="gray.200" />
+              <PopoverArrow
+                bg={isDark ? "gray.700" : "gray.200"}
+                boxShadow="none"
+              />
               <Flex m="3">
                 <Stack>
                   <Text>Filtrar por:</Text>
