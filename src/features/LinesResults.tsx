@@ -15,6 +15,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { ChangeEvent } from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
@@ -42,25 +43,6 @@ export function LinesResults({ lines, filter, showFilterSelect }: LinesProps) {
     }
 
     router.push(`/lines/filter?filter=${filter}`);
-  }
-
-  async function getLineDetails(id: string) {
-    const { data } = await api.get(`process.php?a=il&`, {
-      params: {
-        p: id,
-      },
-    });
-    const arr: any = Object.values(data);
-    const query: any = arr.map((item: any) => {
-      return `${item.lat}, ${item.lng}/`;
-    });
-
-    window.open(
-      `https://www.google.com/maps/dir/${query.toString()}`,
-      "_blank"
-    );
-
-    console.log(query.toString());
   }
 
   return (
@@ -101,20 +83,21 @@ export function LinesResults({ lines, filter, showFilterSelect }: LinesProps) {
                         <Td>{line.codigo}</Td>
                         <Td>{line.nome}</Td>
                         <Td>
-                          <IconButton
-                            borderRadius="full"
-                            colorScheme="green"
-                            size="sm"
-                            aria-label="Search database"
-                            onClick={() => getLineDetails(line.id)}
-                            icon={
-                              <Icon
-                                as={AiOutlineArrowRight}
-                                color="gray.100"
-                                fontSize="20"
-                              />
-                            }
-                          />
+                          <Link href={`/lines/itinerary/${line.id}`}>
+                            <IconButton
+                              borderRadius="full"
+                              colorScheme="green"
+                              size="sm"
+                              aria-label="Search database"
+                              icon={
+                                <Icon
+                                  as={AiOutlineArrowRight}
+                                  color="gray.100"
+                                  fontSize="20"
+                                />
+                              }
+                            />
+                          </Link>
                         </Td>
                       </Tr>
                     ))}
