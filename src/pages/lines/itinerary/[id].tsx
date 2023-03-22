@@ -1,6 +1,6 @@
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
-import { Itinerary } from "@/features/Itinerary";
+import { Itinerary } from "@/features/Itinerary/Itinerary";
 
 type Line = {
   codigo: string;
