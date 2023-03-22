@@ -19,6 +19,7 @@ export default function Search({ lines, filter }: SearchProps) {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const term = query.term?.toString().toLowerCase() ?? "";
+
   if (query.slug == "all" && term.length) {
     const buses = await api.get("/process.php?a=nc&p=%&t=o");
     const lotations = await api.get("/process.php?a=nc&p=%&t=l");
@@ -40,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   if ((query.slug == "buses" || query.slug == "lotations") && term.length) {
     const filter = query.slug == "buses" ? "o" : "l";
-    console.log(filter);
+
     const { data } = await api.get(`/process.php?a=nc&p=%&t=${filter}`);
 
     const lines: Line[] = data.filter(
@@ -57,7 +58,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   }
 
   return {
-    props: {},
     redirect: { destination: "/404", permanent: false },
   };
 };

@@ -23,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const lotations = await api.get("/process.php?a=nc&p=%&t=l");
 
     const lines: Line[] = [...buses.data, ...lotations.data];
+
     return {
       props: {
         lines,
@@ -33,9 +34,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   if (query.filter == "buses" || query.filter == "lotations") {
     const filter = query.filter == "buses" ? "o" : "l";
+
     const { data } = await api.get(`/process.php?a=nc&p=%&t=${filter}`);
 
     const lines: Line[] = data;
+
     return {
       props: {
         lines,
@@ -45,7 +48,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   }
 
   return {
-    props: {},
     redirect: { destination: "/404", permanent: false },
   };
 };
