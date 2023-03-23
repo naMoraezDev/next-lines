@@ -1,8 +1,9 @@
 import { Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import router from "next/router";
+import { useRouter } from "next/router";
 
 export function Navigation() {
+  const router = useRouter();
   return (
     <Flex>
       <Link href="/">
