@@ -1,6 +1,7 @@
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
 import { Itinerary } from "@/features/Itinerary/Itinerary";
+import Head from "next/head";
 
 type Line = {
   codigo: string;
@@ -18,7 +19,15 @@ type DetailsProps = {
 };
 
 export default function ItineraryPage({ itinerary, line }: DetailsProps) {
-  return <Itinerary itinerary={itinerary} line={line} />;
+  return (
+    <>
+      <Head>
+        <title>{line.nome}</title>
+      </Head>
+
+      <Itinerary itinerary={itinerary} line={line} />
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
