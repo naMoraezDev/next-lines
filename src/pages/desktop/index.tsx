@@ -19,7 +19,7 @@ export default function Home({ isDesktop }: HomeProps) {
       <Header isDesktop={isDesktop} />
 
       <Flex align="center" w="100vw" justify="center" h="80vh" gap="10">
-        <Presentation />
+        <Presentation isDesktop={isDesktop} />
 
         <Image
           src="/images/bus-stop.svg"
