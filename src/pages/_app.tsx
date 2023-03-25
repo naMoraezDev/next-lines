@@ -37,7 +37,6 @@ export default function App({ Component, pageProps }: AppProps) {
                 duration: 1,
               }}
             >
-              <Header />
               <Component {...pageProps} />
             </motion.div>
           )}

@@ -2,13 +2,21 @@ import { Presentation } from "@/components/Presentation";
 import { Flex } from "@chakra-ui/react";
 import Image from "next/image";
 import Head from "next/head";
+import { GetStaticProps } from "next";
+import { Header } from "@/components/Header";
 
-export default function Home() {
+type HomeProps = {
+  isDesktop: boolean;
+};
+
+export default function Home({ isDesktop }: HomeProps) {
   return (
     <>
       <Head>
         <title>Home | lines</title>
       </Head>
+
+      <Header isDesktop={isDesktop} />
 
       <Flex align="center" w="100vw" justify="center" h="80vh" gap="10">
         <Presentation />
@@ -24,3 +32,10 @@ export default function Home() {
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = () => {
+  return {
+    props: { isDesktop: true },
+    revalidate: 60 * 60 * 24,
+  };
+};
