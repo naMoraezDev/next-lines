@@ -1,6 +1,7 @@
 import { LinesResults } from "@/features/LinesResults/LinesResults";
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 
 type Line = {
   id: string;
@@ -11,10 +12,19 @@ type Line = {
 type SearchProps = {
   lines: Line[];
   filter: string;
+  term: string;
 };
 
-export default function Search({ lines, filter }: SearchProps) {
-  return <LinesResults lines={lines} filter={filter} />;
+export default function Search({ lines, filter, term }: SearchProps) {
+  return (
+    <>
+      <Head>
+        <title>Busca | {term}</title>
+      </Head>
+
+      <LinesResults lines={lines} filter={filter} />
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
@@ -35,6 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     return {
       props: {
         lines: filterdlines,
+        term,
       },
     };
   }
@@ -53,6 +64,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     return {
       props: {
         lines,
+        term,
       },
     };
   }

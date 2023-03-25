@@ -1,4 +1,3 @@
-import { useTheme } from "@/hooks/useTheme";
 import { Flex, Select, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ChangeEvent } from "react";
@@ -9,7 +8,6 @@ type FilterSelectProps = {
 
 export function FilterSelect({ filter }: FilterSelectProps) {
   const router = useRouter();
-  const { isDark } = useTheme();
 
   function handleSelectFilter(event: ChangeEvent<HTMLSelectElement>) {
     const filter = event.target.value;
