@@ -1,6 +1,7 @@
 import { LinesResults } from "@/features/LinesResults/LinesResults";
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 
 type Line = {
   id: string;
@@ -14,7 +15,15 @@ type LinesProps = {
 };
 
 export default function Lines({ lines, filter }: LinesProps) {
-  return <LinesResults showFilterSelect lines={lines} filter={filter} />;
+  return (
+    <>
+      <Head>
+        <title>Linhas | lines</title>
+      </Head>
+
+      <LinesResults showFilterSelect lines={lines} filter={filter} />
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
