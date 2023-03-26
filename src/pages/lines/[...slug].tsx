@@ -13,24 +13,18 @@ type Line = {
 type LinesProps = {
   lines: Line[];
   filter: string;
-  isDesktop: boolean;
 };
 
-export default function Lines({ lines, filter, isDesktop }: LinesProps) {
+export default function Lines({ lines, filter }: LinesProps) {
   return (
     <>
       <Head>
         <title>Linhas | lines</title>
       </Head>
 
-      <HeaderView isDesktop={isDesktop} />
+      <HeaderView />
 
-      <LinesResults
-        showFilterSelect
-        lines={lines}
-        filter={filter}
-        isDesktop={isDesktop}
-      />
+      <LinesResults showFilterSelect lines={lines} filter={filter} />
     </>
   );
 }
@@ -46,7 +40,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       props: {
         lines,
         filter: query.slug,
-        isDesktop: true,
       },
     };
   }
@@ -62,7 +55,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       props: {
         lines,
         filter: query.filter,
-        isDesktop: true,
       },
     };
   }

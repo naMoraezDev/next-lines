@@ -45,7 +45,7 @@ export function ThemeProvider({ children }: ThemesProviderProps) {
 
   useEffect(() => {
     const themeCookie = themeData.isDark ? "dark" : "light";
-    console.log(themeCookie);
+
     setCookie(undefined, "app.theme", themeCookie, {
       maxAge: 60 * 60 * 24 * 30,
     });

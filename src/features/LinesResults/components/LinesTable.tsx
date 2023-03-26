@@ -8,7 +8,6 @@ import {
   Tbody,
   IconButton,
   Icon,
-  Box,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { IoIosEye } from "react-icons/io";
