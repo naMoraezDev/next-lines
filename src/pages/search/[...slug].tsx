@@ -14,24 +14,18 @@ type SearchProps = {
   lines: Line[];
   filter: string;
   term: string;
-  isDesktop: boolean;
 };
 
-export default function Search({
-  lines,
-  filter,
-  term,
-  isDesktop,
-}: SearchProps) {
+export default function Search({ lines, filter, term }: SearchProps) {
   return (
     <>
       <Head>
         <title>Busca | {term}</title>
       </Head>
 
-      <Header isDesktop={isDesktop} />
+      <Header />
 
-      <LinesResults lines={lines} filter={filter} isDesktop={isDesktop} />
+      <LinesResults lines={lines} filter={filter} />
     </>
   );
 }
@@ -55,7 +49,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       props: {
         lines: filterdlines,
         term,
-        isDesktop: true,
       },
     };
   }
@@ -75,7 +68,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       props: {
         lines,
         term,
-        isDesktop: true,
       },
     };
   }

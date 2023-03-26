@@ -52,7 +52,11 @@ export function LinesResults({
   return (
     <Flex mt={23} mb={100} justify="center" pl="5" pr="5">
       <Stack w="100%">
-        {showFilterSelect && <FilterSelect filter={filter} />}
+        {lines.length ? (
+          showFilterSelect && <FilterSelect filter={filter} />
+        ) : (
+          <NoDataError />
+        )}
         <Stack gap="2">
           {lines.map((line) => (
             <Card
