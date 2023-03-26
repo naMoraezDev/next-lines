@@ -2,6 +2,7 @@ import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
 import { Itinerary } from "@/features/Itinerary/Itinerary";
 import Head from "next/head";
+import { Header } from "@/components/Header";
 
 type Line = {
   codigo: string;
@@ -24,6 +25,8 @@ export default function ItineraryPage({ itinerary, line }: DetailsProps) {
       <Head>
         <title>{line.nome}</title>
       </Head>
+
+      <Header />
 
       <Itinerary itinerary={itinerary} line={line} />
     </>

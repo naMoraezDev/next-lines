@@ -2,6 +2,7 @@ import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
 import { Itinerary } from "@/features/Itinerary/Itinerary";
 import Head from "next/head";
+import { Header } from "@/components/Header";
 
 type Line = {
   codigo: string;
@@ -16,16 +17,23 @@ type ItineraryLocations = {
 type DetailsProps = {
   itinerary: ItineraryLocations[];
   line: Line;
+  isDesktop: boolean;
 };
 
-export default function ItineraryPage({ itinerary, line }: DetailsProps) {
+export default function ItineraryPage({
+  itinerary,
+  line,
+  isDesktop,
+}: DetailsProps) {
   return (
     <>
       <Head>
         <title>{line.nome}</title>
       </Head>
 
-      <Itinerary itinerary={itinerary} line={line} />
+      <Header isDesktop={isDesktop} />
+
+      <Itinerary itinerary={itinerary} line={line} isDesktop={isDesktop} />
     </>
   );
 }
@@ -50,6 +58,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     props: {
       itinerary,
       line,
+      isDesktop: true,
     },
   };
 };

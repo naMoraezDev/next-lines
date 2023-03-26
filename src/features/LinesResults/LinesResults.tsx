@@ -60,6 +60,8 @@ export function LinesResults({
         <Stack gap="2">
           {lines.map((line) => (
             <Card
+              href={`/lines/itinerary/${line.id}`}
+              as={Link}
               key={line.id}
               color={isDark ? "gray.100" : "gray.700"}
               bg={isDark ? "gray.700" : "gray.100"}
