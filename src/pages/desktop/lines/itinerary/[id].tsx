@@ -1,8 +1,10 @@
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
-import { Itinerary } from "@/features/Itinerary/Itinerary";
 import Head from "next/head";
 import { Header } from "@/components/Header";
+import GoogleMaps from "@/components/GoogleMaps";
+import { LineTitleNavigation } from "@/features/Itinerary/components/LineTitleNavigation";
+import { Stack, Flex } from "@chakra-ui/react";
 
 type Line = {
   codigo: string;
@@ -33,7 +35,12 @@ export default function ItineraryPage({
 
       <Header isDesktop={isDesktop} />
 
-      <Itinerary itinerary={itinerary} line={line} isDesktop={isDesktop} />
+      <Flex mt={35} mb={100} justify="center">
+        <Stack w={1280} gap="5">
+          <LineTitleNavigation line={line} />
+          <GoogleMaps itinerary={itinerary} />
+        </Stack>
+      </Flex>
     </>
   );
 }

@@ -1,6 +1,5 @@
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
-import { Itinerary } from "@/features/Itinerary/Itinerary";
 import Head from "next/head";
 import { Header } from "@/components/Header";
 
@@ -27,8 +26,6 @@ export default function ItineraryPage({ itinerary, line }: DetailsProps) {
       </Head>
 
       <Header />
-
-      <Itinerary itinerary={itinerary} line={line} />
     </>
   );
 }
