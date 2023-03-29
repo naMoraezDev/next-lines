@@ -1,10 +1,5 @@
-import React, { useMemo, useCallback } from "react";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  DirectionsService,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
+import React from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 type ItineraryLocations = {
   lat: string;
@@ -16,9 +11,6 @@ type GoogleMapsProps = {
 };
 
 function GoogleMaps({ itinerary }: GoogleMapsProps) {
-  const [response, setResponse] =
-    React.useState<google.maps.DistanceMatrixResponse | null>(null);
-
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyCNO-HLkjdLj95mGXQLKNvzQR8hf0DExjU",
@@ -35,36 +27,6 @@ function GoogleMaps({ itinerary }: GoogleMapsProps) {
     height: "100vh",
   };
 
-  const directionsServiceOptions =
-    // @ts-ignore
-    useMemo<google.maps.DirectionsRequest>(() => {
-      return {
-        origin: {
-          lat: Number(itinerary[0].lat),
-          lng: Number(itinerary[0].lng),
-        },
-        destination: {
-          lat: Number(itinerary[itinerary.length - 5].lat),
-          lng: Number(itinerary[itinerary.length - 5].lng),
-        },
-        travelMode: "DRIVING",
-      };
-    }, [itinerary]);
-
-  const directionsCallback = useCallback((res: any) => {
-    if (res !== null && res.status === "OK") {
-      setResponse(res);
-    } else {
-      console.error(res);
-    }
-  }, []);
-
-  const directionsRendererOptions = React.useMemo<any>(() => {
-    return {
-      directions: response,
-    };
-  }, [response]);
-
   return isLoaded ? (
     <>
       <GoogleMap
@@ -73,12 +35,16 @@ function GoogleMaps({ itinerary }: GoogleMapsProps) {
         center={center}
         zoom={15}
       >
-        <DirectionsService
-          options={directionsServiceOptions}
-          callback={directionsCallback}
-        />
-
-        <DirectionsRenderer options={directionsRendererOptions} />
+        {itinerary.map((location, index) => (
+          <Marker
+            key={index}
+            position={{ lat: Number(location.lat), lng: Number(location.lng) }}
+            icon={{
+              url: "https://cdn-icons-png.flaticon.com/512/3944/3944427.png",
+              scaledSize: new window.google.maps.Size(30, 30),
+            }}
+          />
+        ))}
       </GoogleMap>
     </>
   ) : (
