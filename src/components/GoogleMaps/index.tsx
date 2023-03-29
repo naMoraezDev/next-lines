@@ -33,11 +33,20 @@ function GoogleMaps({ itinerary }: GoogleMapsProps) {
 
   return isLoaded ? (
     <>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
+      <GoogleMap
+        clickableIcons
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={15}
+      >
         {itinerary.map((location) => (
           <Marker
             key={createKey(location)}
             position={{ lat: Number(location.lat), lng: Number(location.lng) }}
+            icon={{
+              url: "https://cdn-icons-png.flaticon.com/512/3944/3944427.png",
+              scaledSize: new window.google.maps.Size(30, 30),
+            }}
           />
         ))}
       </GoogleMap>
