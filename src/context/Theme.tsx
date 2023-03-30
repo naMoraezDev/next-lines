@@ -9,7 +9,6 @@ import React, {
 import { ChakraProvider } from "@chakra-ui/react";
 import { darkTheme } from "@/styles/dark-theme";
 import { lightTheme } from "@/styles/light-theme";
-import { setCookie, parseCookies } from "nookies";
 
 type ThemeContextData = {
   toggleTheme(): void;
@@ -26,8 +25,13 @@ type ThemesProviderProps = {
 };
 
 export function ThemeProvider({ children }: ThemesProviderProps) {
-  const { "app.theme": themeCookie } = parseCookies();
-  const themeC = themeCookie === "dark" ? darkTheme : lightTheme;
+  let localStorageThemeValue;
+  if (typeof window !== "undefined") {
+    localStorageThemeValue = localStorage.getItem("app.theme");
+  }
+
+  const localStorageTheme =
+    localStorageThemeValue === "dark" ? darkTheme : lightTheme;
 
   const handleToggleTheme = useCallback(() => {
     setThemeData((oldState) => ({
@@ -39,16 +43,14 @@ export function ThemeProvider({ children }: ThemesProviderProps) {
 
   const [themeData, setThemeData] = useState<ThemeContextData>({
     toggleTheme: handleToggleTheme,
-    theme: themeC,
-    isDark: themeCookie === "dark",
+    theme: localStorageTheme,
+    isDark: localStorageThemeValue === "dark",
   });
 
   useEffect(() => {
-    const themeCookie = themeData.isDark ? "dark" : "light";
+    const localStorageThemeValue = themeData.isDark ? "dark" : "light";
 
-    setCookie(undefined, "app.theme", themeCookie, {
-      maxAge: 60 * 60 * 24 * 30,
-    });
+    localStorage.setItem("app.theme", localStorageThemeValue);
   }, [themeData]);
 
   return (
