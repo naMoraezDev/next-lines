@@ -30,7 +30,7 @@ export default function ItineraryPage({ itinerary, line }: DetailsProps) {
 
       <Header />
 
-      <Flex mt={35} mb={100} justify="center">
+      <Flex mt={150} mb={100} justify="center">
         <Stack w={1280} gap="5">
           <LineTitleNavigation line={line} />
           <GoogleMaps itinerary={itinerary} />

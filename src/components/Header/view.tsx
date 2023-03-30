@@ -21,7 +21,8 @@ export function HeaderView({ isDesktop, variant }: HeaderViewProps) {
         mx="auto"
         px="6"
         align="center"
-        bg="green.400"
+        backgroundColor="rgba(72, 187, 120, 0.7)"
+        backdropFilter="blur(5px)"
         justify="center"
       >
         <Logo />
@@ -66,7 +67,18 @@ export function HeaderView({ isDesktop, variant }: HeaderViewProps) {
   }
 
   return (
-    <Flex as="header" mx="auto" px="6" align="center" bg="green.400">
+    <Flex
+      as="header"
+      mx="auto"
+      px="6"
+      align="center"
+      backgroundColor="rgba(72, 187, 120, 0.7)"
+      backdropFilter="blur(5px)"
+      position="fixed"
+      w="100%"
+      zIndex="200"
+      top="0"
+    >
       <Stack w="100%" mt={3} mb={4}>
         <Flex align="center" justify="space-between">
           <Logo />

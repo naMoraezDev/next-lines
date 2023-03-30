@@ -37,7 +37,7 @@ export default function ItineraryPage({
 
       <Flex mt={35} mb={100} justify="center">
         <Stack w={1280} gap="5">
-          <LineTitleNavigation line={line} />
+          <LineTitleNavigation line={line} isDesktop={isDesktop} />
           <GoogleMaps itinerary={itinerary} />
         </Stack>
       </Flex>

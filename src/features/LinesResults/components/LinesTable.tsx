@@ -32,7 +32,7 @@ export function LinesTable({ lines }: LinesTableProps) {
           <Tr>
             <Td>Código</Td>
             <Td>Nome</Td>
-            <Td>Detalhes</Td>
+            <Td>Mapa</Td>
           </Tr>
         </Thead>
         <Tbody>

@@ -1,4 +1,4 @@
-import { HeaderView } from "@/components/Header/view";
+import { Header } from "@/components/Header";
 import { LinesResults } from "@/features/LinesResults/LinesResults";
 import { api } from "@/services/api";
 import { GetServerSideProps } from "next";
@@ -22,7 +22,7 @@ export default function Lines({ lines, filter }: LinesProps) {
         <title>Linhas | lines</title>
       </Head>
 
-      <HeaderView />
+      <Header />
 
       <LinesResults showFilterSelect lines={lines} filter={filter} />
     </>

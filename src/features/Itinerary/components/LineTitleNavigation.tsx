@@ -9,11 +9,20 @@ type Line = {
 
 type LineTitleNavigationProps = {
   line: Line;
+  isDesktop?: boolean;
 };
 
-export function LineTitleNavigation({ line }: LineTitleNavigationProps) {
+export function LineTitleNavigation({
+  line,
+  isDesktop,
+}: LineTitleNavigationProps) {
   return (
-    <Flex align="center" gap="5" fontSize="24">
+    <Flex
+      align="center"
+      gap="5"
+      fontSize="24"
+      justify={isDesktop ? undefined : "center"}
+    >
       <Flex mt="2">
         <Link href="/lines/all">
           <Icon as={AiOutlineArrowLeft} />

@@ -15,7 +15,7 @@ export default function Home() {
 
       <Header />
 
-      <Stack gap={5} p="10">
+      <Stack gap={5} p="10" mt={120}>
         <Presentation />
 
         <Image
