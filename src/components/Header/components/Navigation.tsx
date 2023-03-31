@@ -35,6 +35,18 @@ export function Navigation() {
           Linhas
         </Text>
       </Link>
+
+      <Link href="/stops">
+        <Text
+          borderBottomColor="green.400"
+          borderBottomWidth={router.asPath === "/stops" ? 3 : 0}
+          paddingBottom={2}
+          borderRadius={3}
+          marginRight={10}
+        >
+          Paradas
+        </Text>
+      </Link>
     </Flex>
   );
 }

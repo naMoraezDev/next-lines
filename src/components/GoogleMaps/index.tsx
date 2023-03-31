@@ -1,41 +1,85 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Text,
+  Flex,
+  IconButton,
+  Icon,
+  Stack,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { useTheme } from "@/hooks/useTheme";
+import Link from "next/link";
+import { BiDetail } from "react-icons/bi";
 
 type ItineraryLocations = {
   lat: string;
   lng: string;
 };
 
-type GoogleMapsProps = {
-  itinerary: ItineraryLocations[];
+type Line = {
+  idLinha: string;
+  codigoLinha: string;
+  nomeLinha: string;
 };
 
-function GoogleMaps({ itinerary }: GoogleMapsProps) {
+type Stops = {
+  codigo: string;
+  latitude: string;
+  longitude: string;
+  terminal: string;
+  linhas: Line[];
+};
+
+type GoogleMapsProps = {
+  itinerary?: ItineraryLocations[];
+  stops?: Stops[];
+  setStopDetails?: Dispatch<SetStateAction<Line[]>>;
+};
+
+function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
+  const { isDark } = useTheme();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyCNO-HLkjdLj95mGXQLKNvzQR8hf0DExjU",
     language: "pt-BR",
   });
 
-  const center = {
-    lat: Number(itinerary[0].lat),
-    lng: Number(itinerary[0].lng),
-  };
+  function handleOnClick(stopLines: Line[]) {
+    if (setStopDetails) {
+      setStopDetails(stopLines);
+      onOpen();
+    }
+  }
 
   const containerStyle = {
     width: "100%",
     height: "100vh",
   };
 
-  return isLoaded ? (
-    <>
+  if (itinerary && isLoaded) {
+    const itineraryCenter = {
+      lat: Number(itinerary && itinerary[0].lat),
+      lng: Number(itinerary && itinerary[0].lng),
+    };
+
+    return (
       <GoogleMap
         clickableIcons
         mapContainerStyle={containerStyle}
-        center={center}
+        center={itineraryCenter}
         zoom={15}
       >
-        {itinerary.map((location, index) => (
+        {itinerary?.map((location, index) => (
           <Marker
             key={index}
             position={{ lat: Number(location.lat), lng: Number(location.lng) }}
@@ -46,10 +90,43 @@ function GoogleMaps({ itinerary }: GoogleMapsProps) {
           />
         ))}
       </GoogleMap>
-    </>
-  ) : (
-    <></>
-  );
+    );
+  }
+
+  if (stops && isLoaded) {
+    const stopsCenter = {
+      lat: Number(stops && stops[0].latitude),
+      lng: Number(stops && stops[0].longitude),
+    };
+
+    return (
+      <>
+        <GoogleMap
+          clickableIcons
+          mapContainerStyle={containerStyle}
+          center={stopsCenter}
+          zoom={15}
+        >
+          {stops?.map((stop, index) => (
+            <Marker
+              key={index}
+              position={{
+                lat: Number(stop.latitude),
+                lng: Number(stop.longitude),
+              }}
+              icon={{
+                url: "https://cdn-icons-png.flaticon.com/512/678/678659.png",
+                scaledSize: new window.google.maps.Size(20, 20),
+              }}
+              onClick={(e) => handleOnClick(stop.linhas)}
+            />
+          ))}
+        </GoogleMap>
+      </>
+    );
+  }
+
+  return isLoaded ? <></> : <></>;
 }
 
 export default React.memo(GoogleMaps);
