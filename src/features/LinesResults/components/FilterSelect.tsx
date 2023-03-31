@@ -1,4 +1,4 @@
-import { Flex, Select, Text } from "@chakra-ui/react";
+import { Flex, Select } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ChangeEvent } from "react";
 
@@ -32,9 +32,6 @@ export function FilterSelect({ filter }: FilterSelectProps) {
         onChange={(e) => handleSelectFilter(e)}
         value={filter}
       >
-        <option value="all" style={{ color: "gray" }}>
-          Todos
-        </option>
         <option value="buses" style={{ color: "gray" }}>
           Ônibus
         </option>

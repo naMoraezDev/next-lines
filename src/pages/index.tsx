@@ -26,7 +26,7 @@ export default function Home() {
           priority
         />
 
-        <Link href="/lines/all">
+        <Link href="/lines/filter?filter=buses">
           <Button
             borderRadius="full"
             colorScheme="green"

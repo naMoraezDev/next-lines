@@ -21,7 +21,7 @@ export function Presentation({ isDesktop }: PresentationProps) {
           de ônibus de <br /> Porto Alegre.
         </Text>
 
-        <Link href="/lines/all">
+        <Link href="/lines/filter?filter=buses">
           <Button
             borderRadius="full"
             colorScheme="green"

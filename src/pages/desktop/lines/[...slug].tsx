@@ -36,21 +36,6 @@ export default function Lines({ lines, filter, isDesktop }: LinesProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  if (query.slug == "all") {
-    const buses = await api.get("/process.php?a=nc&p=%&t=o");
-    const lotations = await api.get("/process.php?a=nc&p=%&t=l");
-
-    const lines: Line[] = [...buses.data, ...lotations.data];
-
-    return {
-      props: {
-        lines,
-        filter: query.slug,
-        isDesktop: true,
-      },
-    };
-  }
-
   if (query.filter == "buses" || query.filter == "lotations") {
     const filter = query.filter == "buses" ? "o" : "l";
 

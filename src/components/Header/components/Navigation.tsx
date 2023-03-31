@@ -18,7 +18,7 @@ export function Navigation() {
         </Text>
       </Link>
 
-      <Link href="/lines/all">
+      <Link href="/lines/filter?filter=buses">
         <Text
           borderBottom="50"
           borderBottomColor="green.400"
