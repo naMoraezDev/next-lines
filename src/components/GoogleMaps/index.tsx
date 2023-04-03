@@ -21,6 +21,7 @@ import Link from "next/link";
 import { BiDetail } from "react-icons/bi";
 import { lightTheme } from "./styles/lightTheme";
 import { darkTheme } from "./styles/darkTheme";
+import { Polyline } from "@react-google-maps/api";
 
 type ItineraryLocations = {
   lat: string;
@@ -62,7 +63,10 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
       onOpen();
     }
   }
-
+  itinerary &&
+    console.log(
+      Number(itinerary[itinerary.filter((item) => item.lat && item.lng).length])
+    );
   const containerStyle = {
     width: "100%",
     height: "100vh",
@@ -79,24 +83,47 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
         clickableIcons
         mapContainerStyle={containerStyle}
         center={itineraryCenter}
-        zoom={15}
+        zoom={17}
         options={{
           styles: isDark ? darkTheme : lightTheme,
         }}
       >
-        {itinerary?.map((location, index) => (
-          <Marker
-            key={index}
-            position={{
-              lat: Number(location.lat),
-              lng: Number(location.lng),
-            }}
-            icon={{
-              url: "https://cdn-icons-png.flaticon.com/512/3944/3944427.png",
-              scaledSize: new window.google.maps.Size(30, 30),
-            }}
-          />
-        ))}
+        <Polyline
+          options={{
+            path: itinerary
+              ?.filter((item) => item.lat && item.lng)
+              .map((line) => ({
+                lat: Number(line.lat),
+                lng: Number(line.lng),
+              })),
+            geodesic: true,
+            strokeColor: "#63B3ED",
+            strokeOpacity: 1.0,
+            strokeWeight: 5,
+          }}
+        />
+
+        <Marker
+          position={{
+            lat: Number(itinerary[0].lat),
+            lng: Number(itinerary[0].lng),
+          }}
+          icon={{
+            url: "https://cdn-icons-png.flaticon.com/512/3944/3944427.png",
+            scaledSize: new window.google.maps.Size(30, 30),
+          }}
+        />
+
+        <Marker
+          position={{
+            lat: Number(itinerary[itinerary.length - 4].lat),
+            lng: Number(itinerary[itinerary.length - 4].lng),
+          }}
+          icon={{
+            url: "https://cdn-icons-png.flaticon.com/512/3944/3944427.png",
+            scaledSize: new window.google.maps.Size(30, 30),
+          }}
+        />
       </GoogleMap>
     );
   }
