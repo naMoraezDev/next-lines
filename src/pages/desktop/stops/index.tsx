@@ -13,12 +13,18 @@ import {
   Td,
   Tbody,
   Icon,
+  Card,
+  CardBody,
+  Button,
+  Divider,
 } from "@chakra-ui/react";
 import GoogleMaps from "@/components/GoogleMaps";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { BiDetail } from "react-icons/bi";
+import { BiCurrentLocation } from "react-icons/bi";
+import { TbLocationFilled } from "react-icons/tb";
 import { useTheme } from "@/hooks/useTheme";
 
 type Line = {
@@ -67,50 +73,93 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
               priority
             />
 
-            {Boolean(stopDetails.length) ? (
-              <>
-                <Text alignSelf="flex-start" fontWeight="bold" fontSize="large">
-                  Linhas que passam por este ponto:
-                </Text>
-
-                <TableContainer w="100%">
-                  <Table
-                    variant="striped"
-                    colorScheme={isDark ? "blackAlpha" : "facebook"}
+            <Card width="100%">
+              <CardBody bgColor={isDark ? "gray.700" : "gray.200"}>
+                <Flex gap="5">
+                  <Button
+                    rightIcon={<Icon as={BiCurrentLocation} fontSize="20" />}
+                    colorScheme="blue"
+                    variant="solid"
+                    borderRadius="full"
                   >
-                    <Thead>
-                      <Tr>
-                        <Td>Código</Td>
-                        <Td>Nome</Td>
-                        <Td>Mapa</Td>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {stopDetails.map((detail) => (
-                        <Tr key={detail.idLinha}>
-                          <Td>{detail.codigoLinha}</Td>
-                          <Td whiteSpace="pre-wrap">{detail.nomeLinha}</Td>
-                          <Td>
-                            <Link href={`/lines/itinerary/${detail.idLinha}`}>
-                              <Icon
-                                as={BiDetail}
-                                color="green.400"
-                                fontSize="20"
-                              />
-                            </Link>
-                          </Td>
-                        </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-              </>
-            ) : (
-              <Text fontWeight="bold" fontSize="xl" textAlign="center">
-                Clique sobre uma parada de ônibus <br />
-                para vizualizar mais detalhes.
-              </Text>
-            )}
+                    Sua localização
+                  </Button>
+
+                  <Button
+                    rightIcon={<Icon as={TbLocationFilled} fontSize="20" />}
+                    colorScheme="blue"
+                    color={isDark ? "gray.100" : "blue.500"}
+                    variant="outline"
+                    borderRadius="full"
+                    _hover={{
+                      bgColor: isDark ? "gray.600" : "gray.300",
+                    }}
+                  >
+                    Rota para o ponto mais próximo
+                  </Button>
+                </Flex>
+
+                <Divider mt="5" mb="5" />
+
+                {Boolean(stopDetails.length) ? (
+                  <>
+                    <Text
+                      alignSelf="flex-start"
+                      fontWeight="bold"
+                      fontSize="large"
+                      color={isDark ? "gray.100" : "gray.900"}
+                    >
+                      Linhas que passam por este ponto:
+                    </Text>
+
+                    <TableContainer w="100%">
+                      <Table
+                        variant="striped"
+                        colorScheme={isDark ? "blackAlpha" : "facebook"}
+                        color={isDark ? "gray.100" : "gray.900"}
+                      >
+                        <Thead>
+                          <Tr>
+                            <Td>Código</Td>
+                            <Td>Nome</Td>
+                            <Td>Rota</Td>
+                          </Tr>
+                        </Thead>
+                        <Tbody>
+                          {stopDetails.map((detail) => (
+                            <Tr key={detail.idLinha}>
+                              <Td>{detail.codigoLinha}</Td>
+                              <Td whiteSpace="pre-wrap">{detail.nomeLinha}</Td>
+                              <Td>
+                                <Link
+                                  href={`/lines/itinerary/${detail.idLinha}`}
+                                >
+                                  <Icon
+                                    as={BiDetail}
+                                    color="blue.500"
+                                    fontSize="20"
+                                  />
+                                </Link>
+                              </Td>
+                            </Tr>
+                          ))}
+                        </Tbody>
+                      </Table>
+                    </TableContainer>
+                  </>
+                ) : (
+                  <Text
+                    fontWeight="bold"
+                    fontSize="xl"
+                    textAlign="center"
+                    color={isDark ? "gray.100" : "gray.900"}
+                  >
+                    Clique sobre uma parada de ônibus <br />
+                    para vizualizar mais detalhes 🚌
+                  </Text>
+                )}
+              </CardBody>
+            </Card>
           </Stack>
         </Flex>
       </Flex>
