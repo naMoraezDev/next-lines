@@ -25,6 +25,7 @@ import Link from "next/link";
 import { BiDetail } from "react-icons/bi";
 import { BiCurrentLocation } from "react-icons/bi";
 import { TbLocationFilled } from "react-icons/tb";
+import { MdOutlineAltRoute } from "react-icons/md";
 import { useTheme } from "@/hooks/useTheme";
 
 type Line = {
@@ -75,7 +76,7 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
 
             <Card width="100%">
               <CardBody bgColor={isDark ? "gray.700" : "gray.200"}>
-                <Flex gap="5">
+                <Flex gap="5" mb="10">
                   <Button
                     rightIcon={<Icon as={BiCurrentLocation} fontSize="20" />}
                     colorScheme="blue"
@@ -95,11 +96,9 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
                       bgColor: isDark ? "gray.600" : "gray.300",
                     }}
                   >
-                    Rota para o ponto mais próximo
+                    Rota para a parada mais próximo
                   </Button>
                 </Flex>
-
-                <Divider mt="5" mb="5" />
 
                 {Boolean(stopDetails.length) ? (
                   <>
@@ -109,7 +108,29 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
                       fontSize="large"
                       color={isDark ? "gray.100" : "gray.900"}
                     >
-                      Linhas que passam por este ponto:
+                      Detalhes da parada
+                    </Text>
+                    <Button
+                      rightIcon={<Icon as={MdOutlineAltRoute} fontSize="20" />}
+                      colorScheme="blue"
+                      color={isDark ? "gray.100" : "blue.500"}
+                      variant="outline"
+                      borderRadius="full"
+                      _hover={{
+                        bgColor: isDark ? "gray.600" : "gray.300",
+                      }}
+                      my="5"
+                    >
+                      Caminho até esta parada
+                    </Button>
+
+                    <Text
+                      alignSelf="flex-start"
+                      fontWeight="bold"
+                      fontSize="large"
+                      color={isDark ? "gray.100" : "gray.900"}
+                    >
+                      Linhas que passam por esta parada:
                     </Text>
 
                     <TableContainer w="100%">
