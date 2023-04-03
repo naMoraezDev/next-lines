@@ -16,7 +16,7 @@ import {
   Card,
   CardBody,
   Button,
-  Divider,
+  CardHeader,
 } from "@chakra-ui/react";
 import GoogleMaps from "@/components/GoogleMaps";
 import Image from "next/image";
@@ -74,9 +74,13 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
               priority
             />
 
-            <Card width="100%">
-              <CardBody bgColor={isDark ? "gray.700" : "gray.200"}>
-                <Flex gap="5" mb="10">
+            <Card
+              width="100%"
+              bgColor={isDark ? "gray.700" : "gray.200"}
+              borderRadius="20"
+            >
+              <CardHeader>
+                <Flex gap="5">
                   <Button
                     rightIcon={<Icon as={BiCurrentLocation} fontSize="20" />}
                     colorScheme="blue"
@@ -96,10 +100,11 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
                       bgColor: isDark ? "gray.600" : "gray.300",
                     }}
                   >
-                    Rota para a parada mais próximo
+                    Rota para a parada mais próxima
                   </Button>
                 </Flex>
-
+              </CardHeader>
+              <CardBody>
                 {Boolean(stopDetails.length) ? (
                   <>
                     <Text
