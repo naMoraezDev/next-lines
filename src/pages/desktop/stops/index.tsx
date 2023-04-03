@@ -60,7 +60,7 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
 
           <Stack w="50%" align="center" spacing="10">
             <Image
-              src="/images/bus-stop-yellow.svg"
+              src="/images/bus-stop-blue.svg"
               alt=""
               width={350}
               height={350}

@@ -58,6 +58,7 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [path, setPath] = useState<any>([]);
   const [userLocation, setUserLocation] = useState<any>();
+  const [stopCenter, setStopCenter] = useState<any>();
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyCNO-HLkjdLj95mGXQLKNvzQR8hf0DExjU",
@@ -88,10 +89,10 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
     get_location();
   }, []);
 
-  function handleOnClick(stopLines: Line[]) {
+  function handleOnClick(stopLines: Line[], center: any) {
     if (setStopDetails) {
       setStopDetails(stopLines);
-      onOpen();
+      setStopCenter(center);
     }
   }
 
@@ -167,7 +168,7 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
         <GoogleMap
           clickableIcons
           mapContainerStyle={containerStyle}
-          center={stopsCenter}
+          center={stopCenter ? stopCenter : stopsCenter}
           zoom={11}
           options={{
             styles: isDark ? darkTheme : lightTheme,
@@ -188,7 +189,12 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
                       url: "https://cdn-icons-png.flaticon.com/512/7491/7491334.png",
                       scaledSize: new window.google.maps.Size(30, 30),
                     }}
-                    onClick={(e) => handleOnClick(stop.linhas)}
+                    onClick={() =>
+                      handleOnClick(stop.linhas, {
+                        lat: Number(stop.latitude),
+                        lng: Number(stop.longitude),
+                      })
+                    }
                   />
                 ))}
               </>
