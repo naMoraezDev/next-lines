@@ -19,6 +19,8 @@ import { useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import Link from "next/link";
 import { BiDetail } from "react-icons/bi";
+import { lightTheme } from "./styles/lightTheme";
+import { darkTheme } from "./styles/darkTheme";
 
 type ItineraryLocations = {
   lat: string;
@@ -78,11 +80,17 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
         mapContainerStyle={containerStyle}
         center={itineraryCenter}
         zoom={15}
+        options={{
+          styles: isDark ? darkTheme : lightTheme,
+        }}
       >
         {itinerary?.map((location, index) => (
           <Marker
             key={index}
-            position={{ lat: Number(location.lat), lng: Number(location.lng) }}
+            position={{
+              lat: Number(location.lat),
+              lng: Number(location.lng),
+            }}
             icon={{
               url: "https://cdn-icons-png.flaticon.com/512/3944/3944427.png",
               scaledSize: new window.google.maps.Size(30, 30),
@@ -106,6 +114,9 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
           mapContainerStyle={containerStyle}
           center={stopsCenter}
           zoom={15}
+          options={{
+            styles: isDark ? darkTheme : lightTheme,
+          }}
         >
           {stops?.map((stop, index) => (
             <Marker
@@ -115,7 +126,7 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
                 lng: Number(stop.longitude),
               }}
               icon={{
-                url: "https://cdn-icons-png.flaticon.com/512/678/678659.png",
+                url: "https://cdn-icons-png.flaticon.com/512/7491/7491334.png",
                 scaledSize: new window.google.maps.Size(20, 20),
               }}
               onClick={(e) => handleOnClick(stop.linhas)}
