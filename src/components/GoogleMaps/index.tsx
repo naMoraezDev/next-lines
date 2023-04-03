@@ -179,6 +179,7 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
               <>
                 {stops?.map((stop, index) => (
                   <Marker
+                    title={`Terminal ${stop.terminal}`}
                     clusterer={clusterer}
                     key={index}
                     position={{
