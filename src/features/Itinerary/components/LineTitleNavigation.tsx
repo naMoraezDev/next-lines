@@ -1,5 +1,6 @@
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 type Line = {
@@ -16,6 +17,7 @@ export function LineTitleNavigation({
   line,
   isDesktop,
 }: LineTitleNavigationProps) {
+  const router = useRouter();
   return (
     <Flex
       align="center"
@@ -23,10 +25,8 @@ export function LineTitleNavigation({
       fontSize="24"
       justify={isDesktop ? undefined : "center"}
     >
-      <Flex mt="2">
-        <Link href="/lines/all">
-          <Icon as={AiOutlineArrowLeft} />
-        </Link>
+      <Flex mt="2" cursor="pointer">
+        <Icon as={AiOutlineArrowLeft} onClick={() => router.back()} />
       </Flex>
       <Text fontWeight="bold">
         {line.codigo} || {line.nome}

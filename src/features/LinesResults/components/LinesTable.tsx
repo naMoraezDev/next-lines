@@ -6,11 +6,11 @@ import {
   Tr,
   Td,
   Tbody,
-  IconButton,
+  Button,
   Icon,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { IoIosEye } from "react-icons/io";
+import { TbMapSearch } from "react-icons/tb";
 
 type Line = {
   id: string;
@@ -32,7 +32,7 @@ export function LinesTable({ lines }: LinesTableProps) {
           <Tr>
             <Td>Código</Td>
             <Td>Nome</Td>
-            <Td>Mapa</Td>
+            <Td>Detalhes</Td>
           </Tr>
         </Thead>
         <Tbody>
@@ -42,13 +42,13 @@ export function LinesTable({ lines }: LinesTableProps) {
               <Td>{line.nome}</Td>
               <Td>
                 <Link href={`/lines/itinerary/${line.id}`}>
-                  <IconButton
-                    borderRadius="full"
+                  <Button
+                    rightIcon={<Icon as={TbMapSearch} fontSize="20" />}
                     colorScheme="green"
-                    size="sm"
-                    aria-label="Search database"
-                    icon={<Icon as={IoIosEye} color="gray.100" fontSize="20" />}
-                  />
+                    borderRadius="full"
+                  >
+                    trajeto
+                  </Button>
                 </Link>
               </Td>
             </Tr>

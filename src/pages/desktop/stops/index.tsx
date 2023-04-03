@@ -27,6 +27,7 @@ import { BiCurrentLocation } from "react-icons/bi";
 import { TbLocationFilled } from "react-icons/tb";
 import { MdOutlineAltRoute } from "react-icons/md";
 import { useTheme } from "@/hooks/useTheme";
+import { TbMapSearch } from "react-icons/tb";
 
 type Line = {
   idLinha: string;
@@ -161,7 +162,7 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
                                   href={`/lines/itinerary/${detail.idLinha}`}
                                 >
                                   <Icon
-                                    as={BiDetail}
+                                    as={TbMapSearch}
                                     color="blue.500"
                                     fontSize="20"
                                   />

@@ -4,14 +4,14 @@ import {
   Text,
   Card,
   CardBody,
-  IconButton,
+  Button,
   Icon,
 } from "@chakra-ui/react";
 import { FilterSelect } from "./components/FilterSelect";
 import { LinesTable } from "./components/LinesTable";
 import { NoDataError } from "./components/NoDataError";
 import Link from "next/link";
-import { IoIosEye } from "react-icons/io";
+import { TbMapSearch } from "react-icons/tb";
 import { useTheme } from "@/hooks/useTheme";
 
 type Line = {
@@ -80,15 +80,13 @@ export function LinesResults({
                     <Text>{line.nome.slice(0, 15)} ...</Text>
                   </Stack>
                   <Link href={`/lines/itinerary/${line.id}`}>
-                    <IconButton
-                      borderRadius="full"
+                    <Button
+                      rightIcon={<Icon as={TbMapSearch} fontSize="20" />}
                       colorScheme="green"
-                      size="sm"
-                      aria-label="Search database"
-                      icon={
-                        <Icon as={IoIosEye} color="gray.100" fontSize="20" />
-                      }
-                    />
+                      borderRadius="full"
+                    >
+                      trajeto
+                    </Button>
                   </Link>
                 </Flex>
               </CardBody>
