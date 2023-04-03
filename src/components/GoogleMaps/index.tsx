@@ -1,5 +1,10 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  MarkerClusterer,
+} from "@react-google-maps/api";
 import {
   Modal,
   ModalOverlay,
@@ -52,12 +57,21 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
   const { isDark } = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [path, setPath] = useState<any>([]);
+  const [userLocation, setUserLocation] = useState<any>();
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyCNO-HLkjdLj95mGXQLKNvzQR8hf0DExjU",
     language: "pt-BR",
   });
 
+  function get_location() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+
+      setUserLocation({ lat: latitude, lng: longitude });
+    });
+  }
+  console.log(userLocation);
   useEffect(() => {
     itinerary &&
       itinerary.forEach((line, index) => {
@@ -66,23 +80,29 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
             ...old,
             { lat: Number(line.lat), lng: Number(line.lng) },
           ]);
-        }, index * 10);
+        }, index * 5);
       });
   }, [itinerary]);
-  console.log(path);
+
+  useEffect(() => {
+    get_location();
+  }, []);
+
   function handleOnClick(stopLines: Line[]) {
     if (setStopDetails) {
       setStopDetails(stopLines);
       onOpen();
     }
   }
-  itinerary &&
-    console.log(
-      Number(itinerary[itinerary.filter((item) => item.lat && item.lng).length])
-    );
+
   const containerStyle = {
     width: "100%",
     height: "100vh",
+  };
+
+  const options = {
+    imagePath:
+      "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
   };
 
   if (itinerary && isLoaded) {
@@ -148,25 +168,40 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
           clickableIcons
           mapContainerStyle={containerStyle}
           center={stopsCenter}
-          zoom={15}
+          zoom={11}
           options={{
             styles: isDark ? darkTheme : lightTheme,
           }}
         >
-          {stops?.map((stop, index) => (
-            <Marker
-              key={index}
-              position={{
-                lat: Number(stop.latitude),
-                lng: Number(stop.longitude),
-              }}
-              icon={{
-                url: "https://cdn-icons-png.flaticon.com/512/7491/7491334.png",
-                scaledSize: new window.google.maps.Size(20, 20),
-              }}
-              onClick={(e) => handleOnClick(stop.linhas)}
-            />
-          ))}
+          <MarkerClusterer options={options}>
+            {(clusterer) => (
+              <>
+                {stops?.map((stop, index) => (
+                  <Marker
+                    clusterer={clusterer}
+                    key={index}
+                    position={{
+                      lat: Number(stop.latitude),
+                      lng: Number(stop.longitude),
+                    }}
+                    icon={{
+                      url: "https://cdn-icons-png.flaticon.com/512/7491/7491334.png",
+                      scaledSize: new window.google.maps.Size(30, 30),
+                    }}
+                    onClick={(e) => handleOnClick(stop.linhas)}
+                  />
+                ))}
+              </>
+            )}
+          </MarkerClusterer>
+
+          <Marker
+            position={userLocation}
+            icon={{
+              url: "https://cdn-icons-png.flaticon.com/512/3710/3710297.png",
+              scaledSize: new window.google.maps.Size(40, 40),
+            }}
+          />
         </GoogleMap>
       </>
     );
