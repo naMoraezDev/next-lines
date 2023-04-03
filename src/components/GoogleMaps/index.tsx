@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import {
   Modal,
@@ -51,12 +51,25 @@ type GoogleMapsProps = {
 function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
   const { isDark } = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [path, setPath] = useState<any>([]);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyCNO-HLkjdLj95mGXQLKNvzQR8hf0DExjU",
     language: "pt-BR",
   });
 
+  useEffect(() => {
+    itinerary &&
+      itinerary.forEach((line, index) => {
+        setTimeout(() => {
+          setPath((old: any) => [
+            ...old,
+            { lat: Number(line.lat), lng: Number(line.lng) },
+          ]);
+        }, index * 10);
+      });
+  }, [itinerary]);
+  console.log(path);
   function handleOnClick(stopLines: Line[]) {
     if (setStopDetails) {
       setStopDetails(stopLines);
@@ -83,19 +96,14 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
         clickableIcons
         mapContainerStyle={containerStyle}
         center={itineraryCenter}
-        zoom={17}
+        zoom={13}
         options={{
           styles: isDark ? darkTheme : lightTheme,
         }}
       >
         <Polyline
           options={{
-            path: itinerary
-              ?.filter((item) => item.lat && item.lng)
-              .map((line) => ({
-                lat: Number(line.lat),
-                lng: Number(line.lng),
-              })),
+            path: path,
             geodesic: true,
             strokeColor: "#63B3ED",
             strokeOpacity: 1.0,
