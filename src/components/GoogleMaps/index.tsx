@@ -51,28 +51,29 @@ type GoogleMapsProps = {
   itinerary?: ItineraryLocations[];
   stops?: Stops[];
   setStopDetails?: Dispatch<SetStateAction<Line[]>>;
+  center?: any;
+  setCenter?: Dispatch<any>;
+  userLocation?: any;
 };
 
-function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
+function GoogleMaps({
+  itinerary,
+  stops,
+  setStopDetails,
+  center,
+  setCenter,
+  userLocation,
+}: GoogleMapsProps) {
   const { isDark } = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [path, setPath] = useState<any>([]);
-  const [userLocation, setUserLocation] = useState<any>();
-  const [stopCenter, setStopCenter] = useState<any>();
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyCNO-HLkjdLj95mGXQLKNvzQR8hf0DExjU",
     language: "pt-BR",
   });
 
-  function get_location() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-
-      setUserLocation({ lat: latitude, lng: longitude });
-    });
-  }
-  console.log(userLocation);
   useEffect(() => {
     itinerary &&
       itinerary.forEach((line, index) => {
@@ -85,14 +86,12 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
       });
   }, [itinerary]);
 
-  useEffect(() => {
-    get_location();
-  }, []);
-
   function handleOnClick(stopLines: Line[], center: any) {
     if (setStopDetails) {
       setStopDetails(stopLines);
-      setStopCenter(center);
+      if (setCenter) {
+        setCenter(center);
+      }
     }
   }
 
@@ -158,17 +157,12 @@ function GoogleMaps({ itinerary, stops, setStopDetails }: GoogleMapsProps) {
   }
 
   if (stops && isLoaded) {
-    const stopsCenter = {
-      lat: Number(stops && stops[0].latitude),
-      lng: Number(stops && stops[0].longitude),
-    };
-
     return (
       <>
         <GoogleMap
           clickableIcons
           mapContainerStyle={containerStyle}
-          center={stopCenter ? stopCenter : stopsCenter}
+          center={center}
           zoom={11}
           options={{
             styles: isDark ? darkTheme : lightTheme,

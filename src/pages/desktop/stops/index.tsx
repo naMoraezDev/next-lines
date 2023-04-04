@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import GoogleMaps from "@/components/GoogleMaps";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { BiDetail } from "react-icons/bi";
 import { BiCurrentLocation } from "react-icons/bi";
@@ -51,6 +51,30 @@ type StopsProps = {
 export default function Stops({ isDesktop, stops }: StopsProps) {
   const { isDark } = useTheme();
   const [stopDetails, setStopDetails] = useState<Line[]>([]);
+  const [center, setCenter] = useState<any>({
+    lat: Number(stops && stops[0].latitude),
+    lng: Number(stops && stops[0].longitude),
+  });
+  const [userLocation, setUserLocation] = useState<any>();
+  const [refresh, setRefresh] = useState<boolean>(false);
+
+  function get_location() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+
+      setUserLocation({ lat: latitude, lng: longitude });
+    });
+  }
+
+  function handleCenterUser() {
+    setCenter(userLocation);
+    setUserLocation(undefined);
+    get_location();
+  }
+
+  useEffect(() => {
+    get_location();
+  }, []);
 
   return (
     <>
@@ -63,7 +87,13 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
       <Flex mt={35} mb={100} justify="center">
         <Flex w={1280} gap="10">
           <Flex w="50%">
-            <GoogleMaps stops={stops} setStopDetails={setStopDetails} />
+            <GoogleMaps
+              stops={stops}
+              setStopDetails={setStopDetails}
+              center={center}
+              setCenter={setCenter}
+              userLocation={userLocation}
+            />
           </Flex>
 
           <Stack w="50%" align="center" spacing="10">
@@ -87,6 +117,9 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
                     colorScheme="blue"
                     variant="solid"
                     borderRadius="full"
+                    onClick={() => {
+                      handleCenterUser();
+                    }}
                   >
                     Sua localização
                   </Button>
