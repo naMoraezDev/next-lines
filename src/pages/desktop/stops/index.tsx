@@ -86,7 +86,7 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
       setDestination(stopLocation);
     }
   };
-  console.log(response && response.routes[0].legs[0].distance.text);
+
   return (
     <>
       <Head>

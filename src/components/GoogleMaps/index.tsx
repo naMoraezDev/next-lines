@@ -123,7 +123,7 @@ function GoogleMaps({
     imagePath:
       "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
   };
-  console.log(response);
+
   const directionsServiceOptions =
     // @ts-ignore
     React.useMemo<google.maps.DirectionsRequest>(() => {
