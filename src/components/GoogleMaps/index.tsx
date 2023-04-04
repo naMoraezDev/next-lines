@@ -4,6 +4,8 @@ import {
   useJsApiLoader,
   Marker,
   MarkerClusterer,
+  DirectionsService,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 import {
   Modal,
@@ -54,6 +56,15 @@ type GoogleMapsProps = {
   center?: any;
   setCenter?: Dispatch<any>;
   userLocation?: any;
+  origin?: google.maps.LatLngLiteral | null;
+  destination?: google.maps.LatLngLiteral | null;
+  setOrigin?: Dispatch<SetStateAction<google.maps.LatLngLiteral | null>>;
+  setDestination?: Dispatch<SetStateAction<google.maps.LatLngLiteral | null>>;
+  setStopLocation?: Dispatch<any>;
+  response?: google.maps.DistanceMatrixResponse | null;
+  setResponse?: Dispatch<
+    SetStateAction<google.maps.DistanceMatrixResponse | null>
+  >;
 };
 
 function GoogleMaps({
@@ -63,6 +74,13 @@ function GoogleMaps({
   center,
   setCenter,
   userLocation,
+  origin,
+  destination,
+  setOrigin,
+  setDestination,
+  setStopLocation,
+  response,
+  setResponse,
 }: GoogleMapsProps) {
   const { isDark } = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -86,11 +104,12 @@ function GoogleMaps({
       });
   }, [itinerary]);
 
-  function handleOnClick(stopLines: Line[], center: any) {
-    if (setStopDetails) {
+  function handleOnClick(stopLines: Line[], location: any) {
+    if (setStopDetails && setStopLocation) {
       setStopDetails(stopLines);
+      setStopLocation(location);
       if (setCenter) {
-        setCenter(center);
+        setCenter(location);
       }
     }
   }
@@ -104,6 +123,33 @@ function GoogleMaps({
     imagePath:
       "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
   };
+  console.log(response);
+  const directionsServiceOptions =
+    // @ts-ignore
+    React.useMemo<google.maps.DirectionsRequest>(() => {
+      return {
+        origin,
+        destination,
+        travelMode: "WALKING",
+      };
+    }, [origin, destination]);
+
+  const directionsCallback = React.useCallback(
+    (res: any) => {
+      if (res !== null && res.status === "OK") {
+        setResponse && setResponse(res);
+      } else {
+        console.log(res);
+      }
+    },
+    [setResponse]
+  );
+
+  const directionsRendererOptions = React.useMemo<any>(() => {
+    return {
+      directions: response,
+    };
+  }, [response]);
 
   if (itinerary && isLoaded) {
     const itineraryCenter = {
@@ -199,10 +245,18 @@ function GoogleMaps({
           <Marker
             position={userLocation}
             icon={{
-              url: "https://cdn-icons-png.flaticon.com/512/3710/3710297.png",
+              url: "https://cdn-icons-png.flaticon.com/512/6378/6378110.png",
               scaledSize: new window.google.maps.Size(40, 40),
             }}
+            title="Você está aqui"
           />
+
+          <DirectionsService
+            options={directionsServiceOptions}
+            callback={directionsCallback}
+          />
+
+          <DirectionsRenderer options={directionsRendererOptions} />
         </GoogleMap>
       </>
     );

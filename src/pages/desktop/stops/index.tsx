@@ -24,7 +24,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { BiDetail } from "react-icons/bi";
 import { BiCurrentLocation } from "react-icons/bi";
-import { TbLocationFilled } from "react-icons/tb";
+import { MdCleaningServices } from "react-icons/md";
 import { MdOutlineAltRoute } from "react-icons/md";
 import { useTheme } from "@/hooks/useTheme";
 import { TbMapSearch } from "react-icons/tb";
@@ -51,12 +51,16 @@ type StopsProps = {
 export default function Stops({ isDesktop, stops }: StopsProps) {
   const { isDark } = useTheme();
   const [stopDetails, setStopDetails] = useState<Line[]>([]);
+  const [stopLocation, setStopLocation] = useState<any>();
   const [center, setCenter] = useState<any>({
     lat: Number(stops && stops[0].latitude),
     lng: Number(stops && stops[0].longitude),
   });
   const [userLocation, setUserLocation] = useState<any>();
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const [origin, setOrigin] = useState<google.maps.LatLngLiteral | null>(null);
+  const [destination, setDestination] =
+    useState<google.maps.LatLngLiteral | null>(null);
+  const [response, setResponse] = useState<any | null>(null);
 
   function get_location() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -76,6 +80,13 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
     get_location();
   }, []);
 
+  const traceRoute = () => {
+    if (stops && setOrigin && setDestination) {
+      setOrigin(userLocation);
+      setDestination(stopLocation);
+    }
+  };
+  console.log(response && response.routes[0].legs[0].distance.text);
   return (
     <>
       <Head>
@@ -93,6 +104,13 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
               center={center}
               setCenter={setCenter}
               userLocation={userLocation}
+              origin={origin}
+              setOrigin={setOrigin}
+              destination={destination}
+              setDestination={setDestination}
+              setStopLocation={setStopLocation}
+              response={response}
+              setResponse={setResponse}
             />
           </Flex>
 
@@ -123,19 +141,6 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
                   >
                     Sua localização
                   </Button>
-
-                  <Button
-                    rightIcon={<Icon as={TbLocationFilled} fontSize="20" />}
-                    colorScheme="blue"
-                    color={isDark ? "gray.100" : "blue.500"}
-                    variant="outline"
-                    borderRadius="full"
-                    _hover={{
-                      bgColor: isDark ? "gray.600" : "gray.300",
-                    }}
-                  >
-                    Rota para a parada mais próxima
-                  </Button>
                 </Flex>
               </CardHeader>
               <CardBody>
@@ -149,19 +154,33 @@ export default function Stops({ isDesktop, stops }: StopsProps) {
                     >
                       Detalhes da parada
                     </Text>
-                    <Button
-                      rightIcon={<Icon as={MdOutlineAltRoute} fontSize="20" />}
-                      colorScheme="blue"
-                      color={isDark ? "gray.100" : "blue.500"}
-                      variant="outline"
-                      borderRadius="full"
-                      _hover={{
-                        bgColor: isDark ? "gray.600" : "gray.300",
-                      }}
-                      my="5"
-                    >
-                      Caminho até esta parada
-                    </Button>
+                    <Flex align="center" gap={5}>
+                      <Button
+                        rightIcon={
+                          <Icon as={MdOutlineAltRoute} fontSize="20" />
+                        }
+                        colorScheme="blue"
+                        color={isDark ? "gray.100" : "blue.500"}
+                        variant="outline"
+                        borderRadius="full"
+                        _hover={{
+                          bgColor: isDark ? "gray.600" : "gray.300",
+                        }}
+                        my="5"
+                        onClick={() => traceRoute()}
+                      >
+                        Caminho até esta parada
+                      </Button>
+                      {response && (
+                        <Text
+                          fontWeight="bold"
+                          fontSize="md"
+                          color={isDark ? "gray.100" : "gray.900"}
+                        >
+                          Distância: {response.routes[0].legs[0].distance.text}
+                        </Text>
+                      )}
+                    </Flex>
 
                     <Text
                       alignSelf="flex-start"
