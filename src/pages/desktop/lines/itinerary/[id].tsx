@@ -54,6 +54,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
   });
 
+  if (
+    data === '{"Linha n�o encontrada"}' ||
+    data === '{ "p deve ser num�rico" }'
+  ) {
+    return {
+      props: {},
+      redirect: { destination: "/404", permanent: false },
+    };
+  }
+
   const itinerary = Object.values(data);
 
   const line = {
